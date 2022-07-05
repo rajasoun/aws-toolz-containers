@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/"
-SCRIPT_PATH="$SCRIPT_DIR/.ci/scripts/lib/os.sh"
+SCRIPT_PATH="$SCRIPT_DIR/automator/libs/os.sh"
 # shellcheck source=/dev/null
 source "$SCRIPT_PATH"
 
