@@ -26,8 +26,7 @@ COPY    automator     /workspaces/automator
 
 ARG USERNAME=vscode
 RUN useradd -rm -d /home/$USERNAME -s /bin/bash -g root -G sudo -u 1001 $USERNAME
-
-RUN usermod -a -G sudo $USERNAME
+# RUN usermod -a -G sudo $USERNAME
 RUN echo 'vscode  ALL=(ALL) /bin/su' >>  /etc/sudoers
 
 # Remove library scripts for final image
