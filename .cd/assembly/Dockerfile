@@ -19,7 +19,7 @@ COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/se
 COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /usr/local/bin/pulumi                   /usr/local/bin/pulumi
 COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh                             /usr/local/bin/gh
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
-
+COPY --from=rajasoun/aws-sso:1.0.1                             /usr/local/bin/aws-sso  /usr/local/bin/aws-sso
 # COPY Automator
 COPY    shift-left    /workspaces/shift-left
 COPY    tests         /workspaces/tests
