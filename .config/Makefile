@@ -22,7 +22,7 @@ help: ## This help.
 tools-prerequisite: ## Pre-Requisite Checks for build & push
 	@echo "$(GREEN)\nTools PreRequisite Checks $(RESET)"
 	@code --version >/dev/null 2>&1 && (echo "✅ Visual Studio Code") || (echo  "❌ Visual Studio Code")
-	@code --list-extensions --show-versions | grep -c remote-extensionpack  >/dev/null 2>&1 && \
+	@code --list-extensions --show-versions | grep -c remote-containers  >/dev/null 2>&1 && \
 		(echo "✅ Visual Studio Code - Remote Development extension pack") || (echo  "❌ Visual Studio Code - Remote Development extension pack")
 	@make --version >/dev/null 2>&1 && (echo "✅ make") || (echo  "❌ make")
 	@docker --version >/dev/null 2>&1 && (echo "✅ Docker") || (echo  "❌ Docker")
@@ -32,9 +32,9 @@ tools-prerequisite: ## Pre-Requisite Checks for build & push
 
 config-prerequisite: ## Pre-Requisite Checks for Configs
 	@echo "$(GREEN)\nConfigs PreRequisite Checks $(RESET)"
-	@ls -asl .devcontainer/dotfiles/.gitconfig >/dev/null 2>&1 && (echo "✅ .gitconfig File. Using Command -> generate_git_config") || (echo  "❌ .gitconfig File. Execute -> generate_git_config")
-	@ls -asl .devcontainer/.ssh/*id_rsa* >/dev/null 2>&1 && (echo "✅ .ssh keys. Using Command -> gssh_config") || (echo  "❌ .ssh keys. Execute -> gssh_config")
-	@ls -asl .devcontainer/.gpg2/keys/private.key >/dev/null 2>&1 && (echo "✅ gpg2 config. Using Command -> generate_gpg_keys") || (echo  "❌ gpg2 config. Execute -> generate_gpg_keys")
-	@ls -asl .devcontainer/.store/.gpg-id >/dev/null 2>&1 && (echo "✅ password-store config. Using Command ->  init_pass_store") || (echo  "❌ password-store config. Execute -> init_pass_store")
-	@ls -asl .devcontainer/.aws/config >/dev/null 2>&1 && (echo "✅ aws config. Using Command -> aws-env") || (echo  "❌ aws config. Execute -> aws-env")
+	@ls -asl .config/dotfiles/.gitconfig >/dev/null 2>&1 && (echo "✅ .gitconfig File. Using Command -> generate_git_config") || (echo  "❌ .gitconfig File. Execute -> generate_git_config")
+	@ls -asl .config/.ssh/*id_rsa* >/dev/null 2>&1 && (echo "✅ .ssh keys. Using Command -> gssh_config") || (echo  "❌ .ssh keys. Execute -> gssh_config")
+	@ls -asl .config/.gpg2/keys/private.key >/dev/null 2>&1 && (echo "✅ gpg2 config. Using Command -> generate_gpg_keys") || (echo  "❌ gpg2 config. Execute -> generate_gpg_keys")
+	@ls -asl .config/.store/.gpg-id >/dev/null 2>&1 && (echo "✅ password-store config. Using Command ->  init_pass_store") || (echo  "❌ password-store config. Execute -> init_pass_store")
+	@ls -asl .config/.aws/config >/dev/null 2>&1 && (echo "✅ aws config. Using Command -> aws-env") || (echo  "❌ aws config. Execute -> aws-env")
 	@echo ""

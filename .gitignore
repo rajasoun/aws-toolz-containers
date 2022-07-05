@@ -381,3 +381,6 @@ $RECYCLE.BIN/
 .env 
 .env.bak
 .dockerhub.token
+.dev
+.ops
+

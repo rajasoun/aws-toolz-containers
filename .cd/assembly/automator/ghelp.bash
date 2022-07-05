@@ -6,10 +6,10 @@ if [ -d "/workspaces" ];then
 	SCRIPT_DIR="/workspaces"
 else
 	# Within Host
-	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.devcontainer/"
+	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.config/"
 fi
 
-SCRIPT_PATH="$SCRIPT_DIR/automator/src/lib/os.sh"
+SCRIPT_PATH="$SCRIPT_DIR/automator/libs/os.sh"
 # shellcheck source=/dev/null
 source "$SCRIPT_PATH"
 
@@ -150,10 +150,10 @@ function gsetup() {
 
 function release_dev_container(){
 	git_hub_login token
-	make -f .devcontainer/Makefile prerequisite
-	make -f .devcontainer/Makefile git
-	make -f .devcontainer/Makefile build
-	make -f .devcontainer/Makefile push
+	make -f .config/Makefile prerequisite
+	make -f .config/Makefile git
+	make -f .config/Makefile build
+	make -f .config/Makefile push
 }
 
 # Gits Churn -  "frequency of change to code base"
@@ -223,8 +223,8 @@ Development container version information
 
 - Image version: $(cat /opt/version.txt)
 - SHA: $(integrity)
-- Source code repository: $(git config --get remote.origin.url)" > "$(git rev-parse --show-toplevel)/.devcontainer/signature.txt"
-	git add .devcontainer/signature.txt
+- Source code repository: $(git config --get remote.origin.url)" > "$(git rev-parse --show-toplevel)/.config/signature.txt"
+	git add .config/signature.txt
 	HUSKY=0 git commit -m "ci(devcontainer): signature generation" --no-verify
 	git push
 }
@@ -262,8 +262,8 @@ EOF
 }
 
 function store_gpg_keys(){
-    gpg2 --export -a "$EMAIL" > "${PWD}/.devcontainer/.gpg2/keys/public.key"
-    gpg2 --export-secret-keys --armor > "${PWD}/.devcontainer/.gpg2/keys/private.key"
+    gpg2 --export -a "$EMAIL" > "${PWD}/.config/.gpg2/keys/public.key"
+    gpg2 --export-secret-keys --armor > "${PWD}/.config/.gpg2/keys/private.key"
 }
 
 function list_gpg_keys(){
@@ -271,10 +271,10 @@ function list_gpg_keys(){
 }
 
 function generate_gpg_keys(){
-	mkdir -p .devcontainer/.gpg2/keys
+	mkdir -p .config/.gpg2/keys
 	find "$PGP_DIR" -type f -exec chmod 600 {} \; # Set 600 for files
 	find "$PGP_DIR" -type d -exec chmod 700 {} \; # Set 700 for directories
-	if [ ! -d "${PWD}/.devcontainer/.gpg2/keys/public.key" ]; then
+	if [ ! -d "${PWD}/.config/.gpg2/keys/public.key" ]; then
 		create_gpg_keys
 		list_gpg_keys
 		store_gpg_keys
@@ -285,36 +285,36 @@ function generate_gpg_keys(){
 
 function init_pass_store(){
 	EMAIL=$(gpg2 --list-keys | grep uid | awk '{print $5}' | tr -d '<>')
-	if [ ! -f ".devcontainer/.store/.gpg-id" ];then
+	if [ ! -f ".config/.store/.gpg-id" ];then
 		pass init $EMAIL
 	fi
 }
 
 function clean_configs(){
-	rm -fr .devcontainer/dotfiles/.gitconfig
-	rm -fr .devcontainer/.ssh/known_hosts
-	rm -fr .devcontainer/.ssh/id_rsa
-	rm -fr .devcontainer/.ssh/id_rsa.pub
-	rm -fr .devcontainer/.gpg2/keys/
-	rm -fr .devcontainer/.store/aws-vault
-	rm -fr .devcontainer/.store/.gpg-id
-	rm -fr .devcontainer/.aws/config
+	rm -fr .config/dotfiles/.gitconfig
+	rm -fr .config/.ssh/known_hosts
+	rm -fr .config/.ssh/id_rsa
+	rm -fr .config/.ssh/id_rsa.pub
+	rm -fr .config/.gpg2/keys/
+	rm -fr .config/.store/aws-vault
+	rm -fr .config/.store/.gpg-id
+	rm -fr .config/.aws/config
 	## Temp Fix - To restore keys directory with .gitkeep
 	## Find ways to clean directory with exclusion filter
-	mkdir -p .devcontainer/.gpg2/keys
-	touch .devcontainer/.gpg2/keys/.gitkeep
+	mkdir -p .config/.gpg2/keys
+	touch .config/.gpg2/keys/.gitkeep
 }
 
 function backup_configs(){
-	mkdir -p .devcontainer/.ssh/backup
-	mv .devcontainer/.ssh/known_hosts .devcontainer/.ssh/backup
-	mv .devcontainer/.ssh/*id_rsa*	  .devcontainer/.ssh/*id_rsa*
+	mkdir -p .config/.ssh/backup
+	mv .config/.ssh/known_hosts .config/.ssh/backup
+	mv .config/.ssh/*id_rsa*	  .config/.ssh/*id_rsa*
 }
 
 function aws_whoami(){
 	AWS_PROFILE="$1"
 	AWS_WHOAMI_CMD="/workspaces/tools/identity.py"
-	AWS_VAULT_WRAPPER="$(git rev-parse --show-toplevel)/.devcontainer/.aws/aws_vault_env.sh"
+	AWS_VAULT_WRAPPER="$(git rev-parse --show-toplevel)/.config/.aws/aws_vault_env.sh"
 	if [ -z $AWS_PROFILE ];then
 		#AWS_PROFILE Empty
 		echo -e "\n${BOLD}${RED}AWS Profile parameter missing  ${NC}"
@@ -334,7 +334,7 @@ function aws_bill(){
 	else
 		#AWS_PROFILE Not Empty
 		AWS_BILL_CMD="/workspaces/tools/bill.sh"
-		AWS_VAULT_WRAPPER="$(git rev-parse --show-toplevel)/.devcontainer/.aws/aws_vault_env.sh"
+		AWS_VAULT_WRAPPER="$(git rev-parse --show-toplevel)/.config/.aws/aws_vault_env.sh"
 		export AWS_PROFILE=$AWS_PROFILE && $AWS_VAULT_WRAPPER $AWS_BILL_CMD
 	fi
 }
@@ -376,7 +376,7 @@ alias grelease="_git_tag"
 #alias pretty="npx prettier --config /workspaces/shift-left/.prettierrc.yml --write ."
 alias precommit="run_pre_commit"
 alias infra-test='/workspaces/tests/system/e2e_tests.sh'
-alias aws-env="$(git rev-parse --show-toplevel)/.devcontainer/.aws/aws_vault_env.sh"
+alias aws-env="$(git rev-parse --show-toplevel)/.config/.aws/aws_vault_env.sh"
 alias aws-whoami="aws_whoami $@"
 alias aws-bill="aws_bill $@"
 
@@ -386,7 +386,7 @@ alias init-debug='init_debug'
 #-------------------------------------------------------------
 # DevContainer CI/CD Alias Commands
 #-------------------------------------------------------------
-alias ci-cd="make -f .devcontainer/Makefile $@"
+alias ci-cd="make -f .config/Makefile $@"
 alias code-churn="code_churn"
 
 if [ -f "$(git rev-parse --show-toplevel)/.dev" ]; then

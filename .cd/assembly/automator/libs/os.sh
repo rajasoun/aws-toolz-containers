@@ -8,8 +8,8 @@ GREEN=$'\e[32m'
 BLUE=$'\e[34m'
 ORANGE=$'\x1B[33m'
 
-GIT_CONFIG_FILE="${PWD}/.devcontainer/dotfiles/.gitconfig"
-KEYS_PATH="${PWD}/.devcontainer/.ssh"
+GIT_CONFIG_FILE="${PWD}/.config/dotfiles/.gitconfig"
+KEYS_PATH="${PWD}/.config/.ssh"
 PRIVATE_KEY="$KEYS_PATH/id_rsa"
 PUBLIC_KEY="${PRIVATE_KEY}.pub"
 
@@ -215,21 +215,21 @@ function _backup_remove_git_config() {
 function _git_config() {
   #_backup_remove_git_config
   if [ ! -f $GIT_CONFIG_FILE ];then
-    cp .devcontainer/dotfiles/.gitconfig.sample $GIT_CONFIG_FILE
+    cp .config/dotfiles/.gitconfig.sample $GIT_CONFIG_FILE
 	  echo -e "${GREEN}${UNDERLINE}Generating .gitconfig${NC}\n"
     MSG="${ORANGE}  Full Name ${NC}${ORANGE}(without eMail) : ${NC}"
     printf "$MSG"
     read -r "USER_NAME"
-    _file_replace_text "___YOUR_NAME___"  "$USER_NAME"  ".devcontainer/dotfiles/.gitconfig"
+    _file_replace_text "___YOUR_NAME___"  "$USER_NAME"  ".config/dotfiles/.gitconfig"
     MSG="${ORANGE}  EMail ${NC}${ORANGE} : ${NC}"
     printf "$MSG"
     read -r "EMAIL"
-    _file_replace_text "___YOUR_EMAIL___" "$EMAIL" ".devcontainer/dotfiles/.gitconfig"
+    _file_replace_text "___YOUR_EMAIL___" "$EMAIL" ".config/dotfiles/.gitconfig"
     git config --global user.name   "$USER_NAME"
     git config --global user.emanil "$EMAIL"
     echo -e "\nGit Config Gneration for $USER_NAME Done !!!"
 	else
-		echo -e "${ORANGE}\n.devcontainer/dotfiles/.gitconfig Exists${NC}"
+		echo -e "${ORANGE}\n.config/dotfiles/.gitconfig Exists${NC}"
 	fi
 
 }
