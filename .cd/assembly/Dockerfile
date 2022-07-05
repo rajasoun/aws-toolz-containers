@@ -17,6 +17,7 @@ COPY --from=rajasoun/aws-toolz-eksctl:1.0.0                    /usr/local/bin/ek
 COPY --from=rajasoun/aws-toolz-helm:1.0.0                      /usr/local/bin/helm                     /usr/local/bin/helm
 COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/sentry-cli               /usr/local/bin/sentry-cli
 COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /usr/local/bin/pulumi                   /usr/local/bin/pulumi
+COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh                             /usr/local/bin/gh
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
 
 # COPY Automator
