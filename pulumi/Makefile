@@ -1,0 +1,3 @@
+include ../.ci/Makefile
+
+CONTEXT="."
