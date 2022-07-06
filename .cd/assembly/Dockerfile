@@ -4,6 +4,12 @@ ARG BASE_IMAGE
 ARG VERSION
 FROM ${BASE_IMAGE}:1.0.0 as aws-toolz
 
+# COPY Python Packages
+COPY --from=rajasoun/aws-toolz-python-packages:1.0.0  /tmp/packages-tmp/    /tmp/packages-tmp/
+
+RUN set -ex \
+    && /tmp/packages-tmp/setup.sh
+
 # COPY tools
 COPY --from=rajasoun/aws-toolz-aws-vault:1.0.0                 /usr/local/bin/aws-vault                /usr/local/bin/aws-vault
 COPY --from=rajasoun/aws-toolz-cloud-nuke:1.0.0                /usr/local/bin/cloud-nuke               /usr/local/bin/cloud-nuke
@@ -19,7 +25,8 @@ COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/se
 COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /usr/local/bin/pulumi                   /usr/local/bin/pulumi
 COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh                             /usr/local/bin/gh
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
-COPY --from=rajasoun/aws-sso:1.0.1                             /usr/local/bin/aws-sso  /usr/local/bin/aws-sso
+COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso  /usr/local/bin/aws-sso
+
 # COPY Automator
 COPY    shift-left    /workspaces/shift-left
 COPY    tests         /workspaces/tests
@@ -27,8 +34,7 @@ COPY    automator     /workspaces/automator
 
 ARG USERNAME=vscode
 RUN useradd -rm -d /home/$USERNAME -s /bin/bash -g root -G sudo -u 1001 $USERNAME
-# RUN usermod -a -G sudo $USERNAME
-RUN echo 'vscode  ALL=(ALL) /bin/su' >>  /etc/sudoers
+RUN echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
 
 # Remove library scripts for final image
 RUN set -ex \
