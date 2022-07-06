@@ -10,7 +10,9 @@ IMAGE_NAME=rajasoun/aws-toolz-$(NAME)
 #VERSION := $(shell [ "${LIST_TAGS}" ] && echo "$(shell git describe --tags --abbrev=0)" ||  echo 1.0.0 )
 BASE_IMAGE=$(shell cat ../.ci/base_image.txt)
 VERSION=$(shell cat ../.ci/version.txt)
+CONTEXT="."
 
+DOCKER_REGISTRY_TOKEN="../.dockerhub.token"
 
 # HELP
 # This will output the help for each task
@@ -34,7 +36,7 @@ tools-prerequisite: ## Pre-Requisite Checks for build & push
 
 login: ## Login To Docker
 	@echo "$(BOLD)$(YELLOW) Login to Docker Registry $(RESET)"
-	cat ../.dockerhub.token | docker login --username rajasoun --password-stdin
+	cat $(DOCKER_REGISTRY_TOKEN) | docker login --username rajasoun --password-stdin
 	@echo "$(BOLD)$(GREEN)Completed Login to Docker Registry $(RESET)"
 
 version:
