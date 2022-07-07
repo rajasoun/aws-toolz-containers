@@ -36,6 +36,9 @@ ARG USERNAME=vscode
 RUN useradd -rm -d /home/$USERNAME -s /bin/bash -g root -G sudo -u 1001 $USERNAME
 RUN echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
 
+RUN set -ex \
+    && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+
 # Remove library scripts for final image
 RUN set -ex \
     && apt-get autoremove --assume-yes \
@@ -45,12 +48,6 @@ RUN set -ex \
     && rm -rf /tmp/packages-tmp \
     && rm -rf /tmp/*
 
-USER $USERNAME
-WORKDIR /home/$USERNAME
-
-RUN set -ex \
-    && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
-
 ARG PLUGIN_FOLDER="/home/$USERNAME/.oh-my-zsh/custom/plugins"
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_FOLDER"/zsh-syntax-highlighting
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/zsh-autosuggestions
@@ -58,6 +55,9 @@ RUN git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/
 # COPY Dotfiles
 COPY dotfiles/.zshrc    /home/$USERNAME/
 COPY dotfiles/.czrc     /home/$USERNAME/
+
+USER $USERNAME
+WORKDIR /home/$USERNAME
 
 
 
