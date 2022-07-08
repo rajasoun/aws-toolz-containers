@@ -10,64 +10,50 @@ ORANGE=$'\x1B[33m'
 
 MAKEFILE_PATH="$(git rev-parse --show-toplevel)/.ci/Makefile"
 
-function build(){
-    directory=$1
+
+function execute_action(){
+    action=$1
+    directory=$2
     if [ ! -z $directory  ];then 
-        cd $directory && make -f $MAKEFILE_PATH build && cd -
+        cd $directory && make -f $MAKEFILE_PATH $action && cd -
+        echo -e "${GREEN}Action $action on Container $directory successfull${NC}\n"
         return 0
     fi 
-
     # Build Base First
-    cd base && make -f $MAKEFILE_PATH build && cd -
+    cd base && make -f $MAKEFILE_PATH $action && cd -
     for directory in ./* # iterate over all files in current dir
     do
         if [ -d "$directory" ] # if it's a directory
         then
-            cd $directory && make -f $MAKEFILE_PATH build && cd -
+            cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
     done 
-    cd .cd/assembly/base && make -f $MAKEFILE_PATH build && cd -
-    cd .cd/assembly && make -f $MAKEFILE_PATH build && cd -
-    echo -e "${GREEN}All Containers Built successfully${NC}\n"
+    cd .cd/assembly/base && make -f $MAKEFILE_PATH $action && cd -
+    cd .cd/assembly && make -f $MAKEFILE_PATH $action && cd -
+    echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
+}
+
+function build(){
+    directory=$1
+    execute_action build $directory
 }
 
 function push(){
     directory=$1
-    if [ ! -z $directory  ];then 
-        cd $directory && make -f $MAKEFILE_PATH push && cd -
-        return 0
-    fi 
-
-    for directory in ./* # iterate over all files in current dir
-    do
-        if [ -d "$directory" ] # if it's a directory
-        then
-            cd $directory && make -f $MAKEFILE_PATH push && cd -
-        fi
-    done
-    cd .cd/assembly && make push && cd -
-    echo -e "${GREEN}All Containers Pushed successfully To Registry${NC}\n" 
+    execute_action push $directory
 }
 
 function clean(){
     directory=$1
-    if [ ! -z $directory  ];then 
-        cd $directory && make -f $MAKEFILE_PATH clean && cd -
-        return 0
-    fi 
-
-    for directory in ./* # iterate over all files in current dir
-    do
-        if [ -d "$directory" ] # if it's a directory
-        then
-            cd $directory && make -f $MAKEFILE_PATH clean && cd -
-        fi
-    done
-    cd .cd/assembly && make push && cd -
-    echo -e "${GREEN}All Containers Removed successfully from loacl system${NC}\n" 
+    execute_action clean $directory
 }
 
-
+function run(){
+    directory=$1
+    docker run --rm -it \
+        --entrypoint=/bin/bash \
+        rajasoun/aws-toolz-$directory:1.0.0
+}
 
 opt="$1"
 dir_path="$2"
@@ -85,6 +71,9 @@ case ${choice} in
     "clean")
         clean  $dir_path
     ;;
+    "run")
+        run  $dir_path
+    ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"
     echo "${ORANGE}When dir_path is not povided actions runs on all dirs${NC}"
@@ -95,6 +84,7 @@ Commands:
   build       -> Build all Containers
   push        -> Push all Containers
   clean       -> Clean all Containers
+  run         -> Run container based on directory path
   
 EOF
     ;;
