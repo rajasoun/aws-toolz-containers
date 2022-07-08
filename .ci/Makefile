@@ -8,11 +8,13 @@ NAME := $(shell basename $(PWD))
 LIST_TAGS := $(shell git tag -l)
 IMAGE_NAME=rajasoun/aws-toolz-$(NAME)
 #VERSION := $(shell [ "${LIST_TAGS}" ] && echo "$(shell git describe --tags --abbrev=0)" ||  echo 1.0.0 )
-BASE_IMAGE=$(shell cat ../.ci/base_image.txt)
-VERSION=$(shell cat ../.ci/version.txt)
+BASE_PATH=$(shell git rev-parse --show-toplevel)
+BASE_IMAGE=$(shell cat $(BASE_PATH)/.ci/base_image.txt)
+VERSION=$(shell cat $(BASE_PATH)/.ci/version.txt)
+
 CONTEXT="."
 
-DOCKER_REGISTRY_TOKEN="../.dockerhub.token"
+DOCKER_REGISTRY_TOKEN="$(BASE_PATH)/.dockerhub.token"
 
 # HELP
 # This will output the help for each task
