@@ -51,7 +51,7 @@ function clean(){
 function run(){
     directory=$1
     docker run --rm -it \
-        --entrypoint=/bin/bash \
+        --entrypoint=/bin/zsh \
         rajasoun/aws-toolz-$directory:1.0.0
 }
 
