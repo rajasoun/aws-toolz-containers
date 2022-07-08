@@ -26,6 +26,8 @@ COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh      
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
 COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso                  /usr/local/bin/aws-sso
 
+COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces                            /workspaces
+
 # COPY .zshrc & chnagelog config 
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/
