@@ -22,22 +22,27 @@ COPY --from=rajasoun/aws-toolz-kubectl:1.0.0                   /usr/local/bin/ku
 COPY --from=rajasoun/aws-toolz-eksctl:1.0.0                    /usr/local/bin/eksctl                   /usr/local/bin/eksctl
 COPY --from=rajasoun/aws-toolz-helm:1.0.0                      /usr/local/bin/helm                     /usr/local/bin/helm
 COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/sentry-cli               /usr/local/bin/sentry-cli
-COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /home/vscode/.pulumi                    /home/vscode/.pulumi
 COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh                             /usr/local/bin/gh
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
-COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso  /usr/local/bin/aws-sso
+COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso                  /usr/local/bin/aws-sso
 
-# COPY Automator
+# COPY Sift Left Security
 COPY    shift-left    /workspaces/shift-left
-COPY    tests         /workspaces/tests
+COPY    dotfiles/.czrc     /home/$USERNAME/
+
+# COPY Automator & Tests
 COPY    automator     /workspaces/automator
+COPY    tests         /workspaces/tests
+
+# COPY .zshrc
+COPY dotfiles/.zshrc        /home/$USERNAME/
 
 ARG USERNAME=vscode
-RUN useradd -rm -d /home/$USERNAME -s /bin/bash -g root -G sudo -u 1001 $USERNAME
-RUN echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
-
 RUN set -ex \
-    && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+    && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
+    && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
+
+RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 
 # Remove library scripts for final image
 RUN set -ex \
@@ -48,16 +53,18 @@ RUN set -ex \
     && rm -rf /tmp/packages-tmp \
     && rm -rf /tmp/*
 
-ARG PLUGIN_FOLDER="/home/$USERNAME/.oh-my-zsh/custom/plugins"
-RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_FOLDER"/zsh-syntax-highlighting
-RUN git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/zsh-autosuggestions
-
-# COPY Dotfiles
-COPY dotfiles/.zshrc    /home/$USERNAME/
-COPY dotfiles/.czrc     /home/$USERNAME/
-
+ARG USERNAME=vscode
 USER $USERNAME
 WORKDIR /home/$USERNAME
 
+# oh-my-zsh
+ARG PLUGIN_FOLDER="/home/$USERNAME/.oh-my-zsh/custom/plugins"
+RUN set -ex \
+    && curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh \
+    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_FOLDER"/zsh-syntax-highlighting \
+    && git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/zsh-autosuggestions
 
+# Pulumi 
+RUN set -ex \
+    && curl -fsSL https://get.pulumi.com | bash -s -- --version 
 
