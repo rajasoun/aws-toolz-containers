@@ -63,7 +63,6 @@ function setup(){
         echo "$(date)" > "$(git rev-parse --show-toplevel)/.dev"
         echo -e "\n${BOLD}${UNDERLINE}CI Shell For Dev${NC}"
         _configure_ssh_gitconfig
-        make -f .config/Makefile tools-prerequisite
         rm -fr "$(date)" > "$(git rev-parse --show-toplevel)/.ops"
     else
         echo -e "\n${BOLD}${UNDERLINE}CI Shell For Ops${NC}"
