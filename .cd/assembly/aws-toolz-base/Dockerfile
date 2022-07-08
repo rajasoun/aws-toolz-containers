@@ -26,13 +26,6 @@ COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh      
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
 COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso                  /usr/local/bin/aws-sso
 
-# COPY Sift Left Security
-COPY    shift-left    /workspaces/shift-left
-
-# COPY Automator & Tests
-COPY    automator     /workspaces/automator
-COPY    tests         /workspaces/tests
-
 # COPY .zshrc & chnagelog config 
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/

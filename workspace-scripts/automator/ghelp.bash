@@ -211,7 +211,7 @@ function integrity(){
 		"/workspaces/automator/"  \
 		"/workspaces/shift-left/" \
 		"/workspaces/tests" \
-		"/opt/version.txt" \
+		"/workspaces/version.txt" \
 		-type f -print0 \
 	| sort -z | xargs -r0 sha256sum | sha256sum | awk '{print $1}')
 	echo $sha256sum
@@ -221,7 +221,7 @@ function devcontainer_signature(){
 echo -e "
 Development container version information
 
-- Image version: $(cat /opt/version.txt)
+- Image version: $(cat /workspaces/version.txt)
 - SHA: $(integrity)
 - Source code repository: $(git config --get remote.origin.url)" > "$(git rev-parse --show-toplevel)/.config/signature.txt"
 	git add .config/signature.txt
