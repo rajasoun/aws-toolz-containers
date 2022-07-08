@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCRIPT_PATH="$SCRIPT_DIR/workspace-scripts/automator/libs/os.sh"
+BASE_DIR="$(git rev-parse --show-toplevel)"
+SCRIPT_PATH="$BASE_DIR/workspace-scripts/automator/libs/os.sh"
 # shellcheck source=/dev/null
 source "$SCRIPT_PATH"
 
