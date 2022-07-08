@@ -1,5 +1,5 @@
 # aws-toolz
-FROM rajasoun/aws-toolz-base:1.0.0 as aws-toolz
+FROM rajasoun/aws-toolz-assembly-base:1.0.0 as aws-toolz
 
 ARG USERNAME=vscode
 USER $USERNAME

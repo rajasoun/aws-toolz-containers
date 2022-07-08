@@ -28,7 +28,7 @@ function execute_action(){
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
     done 
-    cd .cd/assembly/base && make -f $MAKEFILE_PATH $action && cd -
+    cd .cd/assembly/assembly-base && make -f $MAKEFILE_PATH $action && cd -
     cd .cd/assembly && make -f $MAKEFILE_PATH $action && cd -
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
 }
