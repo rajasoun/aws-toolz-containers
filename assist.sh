@@ -8,30 +8,33 @@ GREEN=$'\e[32m'
 BLUE=$'\e[34m'
 ORANGE=$'\x1B[33m'
 
+MAKEFILE_PATH="$(git rev-parse --show-toplevel)/.ci/Makefile"
+
 function build(){
     directory=$1
-    if [ $directory != "" ];then 
-        cd $directory && make -f ../.ci/Makefile build && cd -
+    if [ ! -z $directory  ];then 
+        cd $directory && make -f $MAKEFILE_PATH build && cd -
         return 0
     fi 
 
     # Build Base First
-    cd base && make -f ../.ci/Makefile build && cd -
+    cd base && make -f $MAKEFILE_PATH build && cd -
     for directory in ./* # iterate over all files in current dir
     do
         if [ -d "$directory" ] # if it's a directory
         then
-            cd $directory && make -f ../.ci/Makefile build && cd -
+            cd $directory && make -f $MAKEFILE_PATH build && cd -
         fi
     done 
-    cd .cd/assembly && make build && cd -
+    cd .cd/assembly/base && make -f $MAKEFILE_PATH build && cd -
+    cd .cd/assembly && make -f $MAKEFILE_PATH build && cd -
     echo -e "${GREEN}All Containers Built successfully${NC}\n"
 }
 
 function push(){
     directory=$1
-    if [ $directory != "" ];then 
-        cd $directory && make -f ../.ci/Makefile push && cd -
+    if [ ! -z $directory  ];then 
+        cd $directory && make -f $MAKEFILE_PATH push && cd -
         return 0
     fi 
 
@@ -39,7 +42,7 @@ function push(){
     do
         if [ -d "$directory" ] # if it's a directory
         then
-            cd $directory && make -f ../.ci/Makefile push && cd -
+            cd $directory && make -f $MAKEFILE_PATH push && cd -
         fi
     done
     cd .cd/assembly && make push && cd -
@@ -48,8 +51,8 @@ function push(){
 
 function clean(){
     directory=$1
-    if [ $directory != "" ];then 
-        cd $directory && make -f ../.ci/Makefile clean && cd -
+    if [ ! -z $directory  ];then 
+        cd $directory && make -f $MAKEFILE_PATH clean && cd -
         return 0
     fi 
 
@@ -57,7 +60,7 @@ function clean(){
     do
         if [ -d "$directory" ] # if it's a directory
         then
-            cd $directory && make -f ../.ci/Makefile clean && cd -
+            cd $directory && make -f $MAKEFILE_PATH clean && cd -
         fi
     done
     cd .cd/assembly && make push && cd -
