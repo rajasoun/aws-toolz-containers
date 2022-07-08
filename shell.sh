@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SCRIPT_PATH="$SCRIPT_DIR/.cd/assembly/automator/libs/os.sh"
+SCRIPT_PATH="$SCRIPT_DIR/workspace-scripts/automator/libs/os.sh"
 # shellcheck source=/dev/null
 source "$SCRIPT_PATH"
-
-# VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-export name="rajasoun/aws-toolz-assembly"
-export VERSION=1.0.0
 
 # Workaround for Path Limitations in Windows
 function _docker() {
@@ -57,9 +53,10 @@ function launch(){
             "$name:$VERSION"
 }
 
-
-ENV=$1
-ENTRY_POINT_CMD=$2
+name=${1-"rajasoun/aws-toolz-assembly"}
+VERSION=${2-"1.0.0"}
+ENV=${3-"dev"}
+ENTRY_POINT_CMD=${4-"/bin/zsh"}
 
 if [ "$ENV" = "dev" ]; then
     echo "$(date)" > "$(git rev-parse --show-toplevel)/.dev"
@@ -70,10 +67,6 @@ if [ "$ENV" = "dev" ]; then
 else
     echo -e "\n${BOLD}${UNDERLINE}CI Shell For Ops${NC}"
     _git_config
-fi
-
-if [ -z $ENTRY_POINT_CMD ]; then
-    ENTRY_POINT_CMD="/bin/zsh"
 fi
 
 launch $ENTRY_POINT_CMD
