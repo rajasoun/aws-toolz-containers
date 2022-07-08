@@ -32,6 +32,8 @@ COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces     
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/
 
+COPY dotfiles/init.bash     /workspaces/init.bash
+
 ARG USERNAME=vscode
 RUN set -ex \
     && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
