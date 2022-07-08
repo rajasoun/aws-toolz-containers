@@ -74,8 +74,8 @@ function setup(){
 }
 
 function main(){
-    ENV=${1-"dev"}
-    ENTRY_POINT_CMD=${2-"/workspaces/automator/ghelp.bash"}
+    ENV=$1
+    ENTRY_POINT_CMD=$2
 
     setup $ENV
     launch $ENTRY_POINT_CMD
