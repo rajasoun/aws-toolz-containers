@@ -25,6 +25,7 @@ COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/se
 COPY --from=rajasoun/aws-toolz-gh:1.0.0                        /usr/bin/gh                             /usr/local/bin/gh
 COPY --from=rajasoun/aws-toolz-aws-iam-authenticator:1.0.0     /usr/local/bin/aws-iam-authenticator    /usr/local/bin/aws-iam-authenticator
 COPY --from=rajasoun/aws-toolz-sso:1.0.0                       /usr/local/bin/aws-sso                  /usr/local/bin/aws-sso
+COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /root/.pulumi/bin/                      /usr/local/bin/
 
 COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces                            /workspaces
 
