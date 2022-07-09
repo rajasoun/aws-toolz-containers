@@ -23,7 +23,7 @@ function execute_action(){
     cd base && make -f $MAKEFILE_PATH $action && cd -
     for directory in ./* # iterate over all files in current dir
     do
-        if [ -d "$directory" && $directory != "./assembly"  ];then
+        if [[ -d "$directory" && $directory != "./assembly" ]];then
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
     done 
