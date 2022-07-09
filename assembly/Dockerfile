@@ -46,19 +46,16 @@ RUN set -ex \
     && rm -rf /tmp/*
 
 ARG USERNAME=vscode
-# RUN set -ex \
-#     && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
-#     && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
 
-RUN set -ex \
-    && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
+# Create the user
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME \
+    && chown -R $USER_UID:$USER_GID /home/$USERNAME
 
-RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 
-# oh-my-zsh plugins
-ARG PLUGIN_FOLDER="/home/$USERNAME/.oh-my-zsh/custom/plugins"
-RUN set -ex \
-    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_FOLDER"/zsh-syntax-highlighting \
-    && git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/zsh-autosuggestions
 
 
