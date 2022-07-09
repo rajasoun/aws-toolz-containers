@@ -13,7 +13,7 @@
 	},
 	"remoteUser": "vscode",
 	"mounts": [
-		"source=${localWorkspaceFolder}/.devcontainer/.aws,target=/home/vscode/.aws,type=bind",
-		"source=${localWorkspaceFolder}/.devcontainer/.store,target=/home/vscode/.password-store,type=bind"
+		"source=${localWorkspaceFolder}/.config/.aws,target=/home/vscode/.aws,type=bind",
+		"source=${localWorkspaceFolder}/.config/.store,target=/home/vscode/.password-store,type=bind"
 	]
 }
