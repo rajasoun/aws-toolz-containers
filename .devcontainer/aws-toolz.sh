@@ -6,7 +6,7 @@ SCRIPT_PATH="$BASE_DIR/workspace-scripts/automator/libs/os.sh"
 source "$SCRIPT_PATH"
 
 # VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-export name="rajasoun/aws-toolz-assembly"
+export name="rajasoun/aws-toolz-devcontainer"
 export VERSION=1.0.0
 
 # Workaround for Path Limitations in Windows
