@@ -35,13 +35,6 @@ RUN set -ex \
     && aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
     && aws --version
 
-ARG USERNAME=vscode
-# RUN set -ex \
-#     && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
-#     && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
-
-RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
-
 # Remove library scripts for final image
 RUN set -ex \
     && apt-get --purge remove unzip -y \
@@ -51,3 +44,21 @@ RUN set -ex \
     && rm -rf /tmp/library-scripts \
     && rm -rf /tmp/packages-tmp \
     && rm -rf /tmp/*
+
+ARG USERNAME=vscode
+# RUN set -ex \
+#     && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
+#     && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
+
+RUN set -ex \
+    && echo 'vscode  ALL=(ALL) NOPASSWD:ALL' >>  /etc/sudoers
+
+RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
+
+# oh-my-zsh plugins
+ARG PLUGIN_FOLDER="/home/$USERNAME/.oh-my-zsh/custom/plugins"
+RUN set -ex \
+    && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$PLUGIN_FOLDER"/zsh-syntax-highlighting \
+    && git clone https://github.com/zsh-users/zsh-autosuggestions "$PLUGIN_FOLDER"/zsh-autosuggestions
+
+
