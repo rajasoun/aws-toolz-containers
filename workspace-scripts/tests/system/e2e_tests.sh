@@ -26,6 +26,7 @@ check "cloud-nuke" cloud-nuke --version
 check "aws-nuke" aws-nuke version
 check "fetch" fetch --version
 check "aws-sso" aws-sso -version
+check "pulumi" pulumi version
 check "http" http --version
 
 #check "pre-commit" pre-commit run --all-files
