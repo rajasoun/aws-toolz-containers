@@ -10,6 +10,7 @@ RUN set -x \
        zsh-syntax-highlighting python3-pip\
        pass gnupg2 httpie netcat sudo \
        curl wget ca-certificates git \
+       iproute2 procps jq lsb-release liblttng-ust0\
     && apt-get autoremove -y  \
     && apt-get clean -y \
     && rm -r /var/cache/* /var/lib/apt/lists/*

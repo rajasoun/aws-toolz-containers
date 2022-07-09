@@ -73,6 +73,9 @@ case ${choice} in
     "run")
         run  $dir_path
     ;;
+    "e2e-test")
+        make -f .ci/Makefile test
+    ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"
     echo "${ORANGE}When dir_path is not povided actions runs on all dirs${NC}"
@@ -84,7 +87,7 @@ Commands:
   push        -> Push all Containers
   clean       -> Clean all Containers
   run         -> Run container based on directory path
-  
+  e2e-test    -> Run e2e Tests on the Devcontainer
 EOF
     ;;
 esac
