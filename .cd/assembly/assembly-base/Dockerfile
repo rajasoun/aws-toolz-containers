@@ -48,7 +48,7 @@ RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 
 # Remove library scripts for final image
 RUN set -ex \
-    && apt-get --purge remove unzip python3-pip -y \
+    && apt-get --purge remove unzip -y \
     && apt-get autoremove --assume-yes \
     && apt-get clean --assume-yes \
     && rm -rf /var/lib/apt/lists/* \

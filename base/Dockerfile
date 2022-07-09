@@ -1,5 +1,6 @@
 # base image
-FROM debian:bullseye-slim as base
+#FROM debian:bullseye-slim as base
+FROM mcr.microsoft.com/vscode/devcontainers/base:buster as base
 RUN set -x \
     && apt-get update \
     && apt-get upgrade -y \

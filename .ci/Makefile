@@ -4,7 +4,7 @@ GREEN :=$(shell tput setaf 2)
 YELLOW :=$(shell tput setaf 3)
 RESET :=$(shell tput sgr0)
 
-NAME := $(shell basename $(PWD))
+NAME := $(shell basename $(PWD) | sed 's/\.//g')
 LIST_TAGS := $(shell git tag -l)
 IMAGE_NAME=rajasoun/aws-toolz-$(NAME)
 #VERSION := $(shell [ "${LIST_TAGS}" ] && echo "$(shell git describe --tags --abbrev=0)" ||  echo 1.0.0 )
@@ -64,6 +64,11 @@ build:  ## Build the container - Copy of Visual Studio Code Container
 			--build-arg BASE_IMAGE=$(BASE_IMAGE) \
 			--build-arg VERSION=$(VERSION)  \
 			$(CONTEXT)
+	@echo "$(BOLD)$(GREEN)Completed building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
+
+devcontainer-build:  ## Build devcontainer
+	@echo "$(BOLD)$(YELLOW)Building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
+	devcontainer build --image-name $(IMAGE_NAME):$(VERSION)
 	@echo "$(BOLD)$(GREEN)Completed building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
 
 push: login ## Push to Docker Hub
