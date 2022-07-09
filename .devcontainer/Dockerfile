@@ -7,7 +7,8 @@ RUN set -ex \
     && /tmp/packages-tmp/setup.sh
 
 # Tools
-COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /usr/local/bin     /usr/local/bin
+COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /usr/local/bin      /usr/local/bin
+COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /usr/local/aws-cli  /usr/local/aws-cli
 
 # Workspace scripts
 COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0  /workspaces         /workspaces

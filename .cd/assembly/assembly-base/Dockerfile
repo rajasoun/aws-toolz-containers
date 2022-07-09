@@ -11,6 +11,8 @@ RUN set -ex \
     && /tmp/packages-tmp/setup.sh
 
 # COPY tools
+COPY --from=rajasoun/aws-toolz-aws:1.0.0                       /usr/local/bin/aws                      /usr/local/bin/aws
+COPY --from=rajasoun/aws-toolz-aws:1.0.0                       /usr/local/aws-cli                      /usr/local/aws-cli
 COPY --from=rajasoun/aws-toolz-aws-vault:1.0.0                 /usr/local/bin/aws-vault                /usr/local/bin/aws-vault
 COPY --from=rajasoun/aws-toolz-cloud-nuke:1.0.0                /usr/local/bin/cloud-nuke               /usr/local/bin/cloud-nuke
 COPY --from=rajasoun/aws-toolz-aws-nuke:1.0.0                  /usr/local/bin/aws-nuke                 /usr/local/bin/aws-nuke
