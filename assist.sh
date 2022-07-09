@@ -19,16 +19,19 @@ function execute_action(){
         echo -e "${GREEN}Action $action on Container $directory successfull${NC}\n"
         return 0
     fi 
-    # Build Base First
+    # Base First
     cd base && make -f $MAKEFILE_PATH $action && cd -
     for directory in ./* # iterate over all files in current dir
     do
-        if [ -d "$directory" ] # if it's a directory
-        then
+        if [ -d "$directory" && $directory != "./assembly"  ];then
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
     done 
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
+
+    # assembly and .devcontainer last
+    cd assembly && make -f $MAKEFILE_PATH $action && cd -
+    cd devcontainer && make -f $MAKEFILE_PATH $action && cd -
 }
 
 function build(){
