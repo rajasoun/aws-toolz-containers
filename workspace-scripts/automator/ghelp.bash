@@ -148,14 +148,6 @@ function gsetup() {
 	fi
 }
 
-function release_dev_container(){
-	git_hub_login token
-	make -f .ci/Makefile prerequisite
-	make -f .ci/Makefile git
-	make -f .ci/Makefile build
-	make -f .ci/Makefile push
-}
-
 # Gits Churn -  "frequency of change to code base"
 function code_churn() {
 	git log --all -M -C --name-only --format='format:' "$@" | sort | grep -v '^$' | uniq -c | sort -n
@@ -386,7 +378,7 @@ alias init-debug='init_debug'
 #-------------------------------------------------------------
 # DevContainer CI/CD Alias Commands
 #-------------------------------------------------------------
-alias ci-cd="make -f .ci/Makefile $@"
+alias ci="make -f .ci/Makefile $@"
 alias code-churn="code_churn"
 
 if [ -f "$(git rev-parse --show-toplevel)/.dev" ]; then

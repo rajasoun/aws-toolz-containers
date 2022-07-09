@@ -78,7 +78,7 @@ clean: ## Remove Base Container Image
 
 test: ## Automated e2e Test Suite for devcontainer
 	@echo "$(BOLD)$(YELLOW) DevContainer e2e Tests $(RESET)"
-	.ci/ci-shell.sh ops /workspaces/tests/system/e2e_tests.sh
+	.cd/aws-toolz.sh ops /workspaces/tests/system/e2e_tests.sh
 	@echo "$(BOLD)$(GREEN)Completed DevContainer e2e Tests $(RESET)"
 
 all:  prerequisite build login push clean ## All in One Command - (prerequisite git build login push clean)

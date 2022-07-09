@@ -1,0 +1,19 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.241.1/containers/debian
+{
+	"name": "aws-toolz-containers",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "bullseye"
+		}
+	},
+	"settings": {
+		"terminal.integrated.defaultProfile.linux": "zsh"
+	},
+	"remoteUser": "vscode",
+	"mounts": [
+		"source=${localWorkspaceFolder}/.devcontainer/.aws,target=/home/vscode/.aws,type=bind",
+		"source=${localWorkspaceFolder}/.devcontainer/.store,target=/home/vscode/.password-store,type=bind"
+	]
+}
