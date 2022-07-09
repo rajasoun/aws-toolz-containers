@@ -8,7 +8,8 @@ GREEN=$'\e[32m'
 BLUE=$'\e[34m'
 ORANGE=$'\x1B[33m'
 
-MAKEFILE_PATH="$(git rev-parse --show-toplevel)/.ci/Makefile"
+BASE_PATH="$(git rev-parse --show-toplevel)"
+MAKEFILE_PATH="$BASE_PATH/.ci/Makefile"
 
 
 function execute_action(){
@@ -28,10 +29,8 @@ function execute_action(){
         fi
     done 
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
-
     # assembly and .devcontainer last
-    cd assembly && make -f $MAKEFILE_PATH $action && cd -
-    cd devcontainer && make -f $MAKEFILE_PATH $action && cd -
+    cd "$BASE_PATH/assembly" && make -f $MAKEFILE_PATH $action && cd -
 }
 
 function build(){
