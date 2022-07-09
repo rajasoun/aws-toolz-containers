@@ -11,8 +11,6 @@ RUN set -ex \
     && /tmp/packages-tmp/setup.sh
 
 # COPY tools
-COPY --from=rajasoun/aws-toolz-aws:1.0.0                       /usr/local/bin/aws                      /usr/local/bin/aws
-COPY --from=rajasoun/aws-toolz-aws:1.0.0                       /usr/local/aws-cli                      /usr/local/aws-cli
 COPY --from=rajasoun/aws-toolz-aws-vault:1.0.0                 /usr/local/bin/aws-vault                /usr/local/bin/aws-vault
 COPY --from=rajasoun/aws-toolz-cloud-nuke:1.0.0                /usr/local/bin/cloud-nuke               /usr/local/bin/cloud-nuke
 COPY --from=rajasoun/aws-toolz-aws-nuke:1.0.0                  /usr/local/bin/aws-nuke                 /usr/local/bin/aws-nuke
@@ -34,6 +32,13 @@ COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces     
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/
 
+# aws cli 
+RUN set -ex \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
+    && aws --version
+
 ARG USERNAME=vscode
 RUN set -ex \
     && useradd -rm -d /home/$USERNAME -s /bin/zsh -g root -G sudo -u 1001 $USERNAME \
@@ -43,6 +48,7 @@ RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 
 # Remove library scripts for final image
 RUN set -ex \
+    && apt-get --purge remove unzip python3-pip -y \
     && apt-get autoremove --assume-yes \
     && apt-get clean --assume-yes \
     && rm -rf /var/lib/apt/lists/* \

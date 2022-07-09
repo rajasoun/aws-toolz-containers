@@ -1,6 +1,13 @@
 ARG VARIANT="buster"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT} 
 
+# aws cli 
+RUN set -ex \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
+    && aws --version
+
 # Python Packages
 COPY --from=rajasoun/aws-toolz-python-packages:1.0.0    /tmp/packages-tmp/    /tmp/packages-tmp/
 RUN set -ex \
@@ -8,7 +15,6 @@ RUN set -ex \
 
 # Tools
 COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /usr/local/bin      /usr/local/bin
-COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /usr/local/aws-cli  /usr/local/aws-cli
 
 # Workspace scripts
 COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0  /workspaces         /workspaces
@@ -17,6 +23,7 @@ COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0  /workspaces         /wor
 # COPY .zshrc & .czrc     
 COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /home/$USERNAME/.zshrc    /home/$USERNAME/
 COPY --from=rajasoun/aws-toolz-assembly-base:1.0.0      /home/$USERNAME/.czrc     /home/$USERNAME/
+
 
 ARG USERNAME=vscode
 USER $USERNAME
