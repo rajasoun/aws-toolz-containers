@@ -1,8 +1,8 @@
-# aws-toolz
+# aws-toolz-assembly
 
 ARG BASE_IMAGE
 ARG VERSION
-FROM ${BASE_IMAGE}:1.0.0 as aws-toolz-base
+FROM ${BASE_IMAGE}:1.0.0 as aws-toolz-assembly
 
 # COPY Python Packages
 COPY --from=rajasoun/aws-toolz-python-packages:1.0.0  /tmp/packages-tmp/    /tmp/packages-tmp/

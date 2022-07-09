@@ -1,5 +1,5 @@
 ARG VERSION="1.0.0"
-FROM rajasoun/rajasoun/aws-toolz-assembly-base:${VERSION} as aws-toolz-assembly
+FROM rajasoun/aws-toolz-assembly:${VERSION} as aws-toolz-assembly
 
 ARG USERNAME=vscode
 # COPY .zshrc & chnagelog config 

@@ -28,7 +28,6 @@ function execute_action(){
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
     done 
-    cd .cd/assembly && make -f $MAKEFILE_PATH $action && cd -
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
 }
 
@@ -49,6 +48,7 @@ function clean(){
 
 function run(){
     directory=$1
+    directory=$(echo $directory | sed 's/\.//g')
     docker run --rm -it \
         --entrypoint=/bin/zsh \
         rajasoun/aws-toolz-$directory:1.0.0
