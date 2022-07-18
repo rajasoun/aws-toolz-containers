@@ -19,6 +19,7 @@ COPY --from=rajasoun/aws-toolz-fetch:1.0.0                     /usr/local/bin/fe
 COPY --from=rajasoun/aws-toolz-syft:1.0.0                      /usr/local/bin/syft                     /usr/local/bin/syft
 COPY --from=rajasoun/aws-toolz-terraform:1.0.0                 /usr/local/bin/terraform                /usr/local/bin/terraform
 COPY --from=rajasoun/aws-toolz-terragrunt:1.0.0                /usr/local/bin/terragrunt               /usr/local/bin/terragrunt
+COPY --from=rajasoun/aws-toolz-packer:1.0.0                    /usr/local/bin/packer                   /usr/local/bin/packer
 COPY --from=rajasoun/aws-toolz-grype:1.0.0                     /usr/local/bin/grype                    /usr/local/bin/grype
 COPY --from=rajasoun/aws-toolz-kubectl:1.0.0                   /usr/local/bin/kubectl                  /usr/local/bin/kubectl
 COPY --from=rajasoun/aws-toolz-eksctl:1.0.0                    /usr/local/bin/eksctl                   /usr/local/bin/eksctl

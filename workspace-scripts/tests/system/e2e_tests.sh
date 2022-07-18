@@ -28,6 +28,7 @@ check "fetch" fetch --version
 check "aws-sso" aws-sso -version
 check "terraform" terraform version
 check "terragrunt" terragrunt --version
+check "packer" packer version
 check "pulumi" pulumi version
 check "http" http --version
 
