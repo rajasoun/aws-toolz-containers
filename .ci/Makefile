@@ -66,11 +66,6 @@ build:  ## Build the container - Copy of Visual Studio Code Container
 			$(CONTEXT)
 	@echo "$(BOLD)$(GREEN)Completed building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
 
-devcontainer-build:  ## Build devcontainer
-	@echo "$(BOLD)$(YELLOW)Building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
-	devcontainer build --image-name $(IMAGE_NAME):$(VERSION)
-	@echo "$(BOLD)$(GREEN)Completed building docker image - $(IMAGE_NAME):$(VERSION) $(RESET)"
-
 push: login ## Push to Docker Hub
 	@echo "$(BOLD)$(YELLOW) Push to Docker Registry $(RESET)"
 	docker push $(IMAGE_NAME):$(VERSION) 

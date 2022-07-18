@@ -38,6 +38,15 @@ function build(){
     execute_action build $directory
 }
 
+function devcontainer_build(){
+    directory=$1
+    IMAGE_NAME="aws-toolz-devcontainer"
+    VERSION="1.0.0"
+	echo -e "${BOLD}${YELLOW}Building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
+	devcontainer build --image-name ${IMAGE_NAME}:${VERSION}
+	echo -e "${BOLD}${GREEN}Completed building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
+}
+
 function push(){
     directory=$1
     execute_action push $directory
@@ -65,6 +74,9 @@ echo -e "\n${BLUE}Executing Action : $choice"
 case ${choice} in
     "build")
         build  $dir_path
+    ;;
+    "devcontainer-build")
+        devcontainer_build ".devcontainer"
     ;;
     "push")
         push   $dir_path
