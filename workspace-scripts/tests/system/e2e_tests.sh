@@ -26,6 +26,7 @@ check "cloud-nuke" cloud-nuke --version
 check "aws-nuke" aws-nuke version
 check "fetch" fetch --version
 check "aws-sso" aws-sso -version
+check "terraform" terraform version
 check "pulumi" pulumi version
 check "http" http --version
 
