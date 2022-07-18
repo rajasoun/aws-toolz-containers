@@ -40,7 +40,7 @@ function build(){
 
 function devcontainer_build(){
     directory=$1
-    IMAGE_NAME="aws-toolz-devcontainer"
+    IMAGE_NAME="rajasoun/aws-toolz-devcontainer"
     VERSION="1.0.0"
 	echo -e "${BOLD}${YELLOW}Building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
 	devcontainer build --image-name ${IMAGE_NAME}:${VERSION}
