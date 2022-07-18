@@ -15,5 +15,13 @@
 	"mounts": [
 		"source=${localWorkspaceFolder}/.config/.aws,target=/home/vscode/.aws,type=bind",
 		"source=${localWorkspaceFolder}/.config/.store,target=/home/vscode/.password-store,type=bind"
-	]
+	],
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"golang.Go"
+	],
+	"features": {
+		"golang": "latest",
+		"docker-from-docker": "latest"
+	}
 }
