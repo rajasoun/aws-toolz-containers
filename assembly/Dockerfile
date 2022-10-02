@@ -32,13 +32,13 @@ COPY --from=rajasoun/aws-toolz-pulumi:1.0.0                    /root/.pulumi/bin
 
 COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces                            /workspaces
 
-# aws cli 
+# aws cli
 RUN set -ex \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
     && aws --version
-    
+
 # Remove library scripts for final image
 RUN set -ex \
     && apt-get --purge remove unzip -y \
@@ -59,7 +59,3 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME \
     && chown -R $USER_UID:$USER_GID /home/$USERNAME
-
-
-
-

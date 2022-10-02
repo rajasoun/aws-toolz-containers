@@ -14,7 +14,6 @@ RUN set -ex \
 
 RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 
-# COPY .zshrc & chnagelog config 
+# COPY .zshrc & chnagelog config
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/
-

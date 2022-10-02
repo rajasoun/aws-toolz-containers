@@ -68,12 +68,12 @@ build:  ## Build the container - Copy of Visual Studio Code Container
 
 push: login ## Push to Docker Hub
 	@echo "$(BOLD)$(YELLOW) Push to Docker Registry $(RESET)"
-	docker push $(IMAGE_NAME):$(VERSION) 
+	docker push $(IMAGE_NAME):$(VERSION)
 	@echo "$(BOLD)$(GREEN)Completed Push to Docker Registry for $(IMAGE_NAME):$(VERSION) $(RESET)"
 
 clean: ## Remove Base Container Image
 	@echo "$(BOLD)$(YELLOW)Removing docker image locally - $(IMAGE_NAME):$(VERSION) $(RESET)"
-	docker rmi --force $(IMAGE_NAME):$(VERSION)  
+	docker rmi --force $(IMAGE_NAME):$(VERSION)
 	@echo "$(BOLD)$(GREEN)Completed removing docker image - $(IMAGE_NAME) $(RESET)"
 
 test: ## Automated e2e Test Suite for devcontainer

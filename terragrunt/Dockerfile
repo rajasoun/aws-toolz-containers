@@ -8,5 +8,4 @@ ENV TERRAGRUNT_INSTALL_SCRIPT="https://github.com/gruntwork-io/terragrunt/releas
 RUN set -ex \
     && wget -q  "$TERRAGRUNT_INSTALL_SCRIPT" \
     && chmod 0755 terragrunt_linux_amd64 \
-    && mv terragrunt_linux_amd64 /usr/local/bin/terragrunt 
-
+    && mv terragrunt_linux_amd64 /usr/local/bin/terragrunt

@@ -23,4 +23,3 @@ RUN set -ex \
     && rm -rf /tmp/library-scripts \
     && rm -rf /tmp/packages-tmp \
     && rm -rf /tmp/*
-    

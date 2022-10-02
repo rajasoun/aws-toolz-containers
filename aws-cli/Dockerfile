@@ -3,7 +3,7 @@ ARG BASE_IMAGE
 ARG VERSION
 FROM ${BASE_IMAGE}:${VERSION}  as aws-cli
 
-# aws cli 
+# aws cli
 RUN set -ex \
     && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash 
+#!/usr/bin/env bash
 
 NC=$'\e[0m' # No Color
 BOLD=$'\033[1m'
@@ -15,11 +15,11 @@ MAKEFILE_PATH="$BASE_PATH/.ci/Makefile"
 function execute_action(){
     action=$1
     directory=$2
-    if [ ! -z $directory  ];then 
+    if [ ! -z $directory  ];then
         cd $directory && make -f $MAKEFILE_PATH $action && cd -
         echo -e "${GREEN}Action $action on Container $directory successfull${NC}\n"
         return 0
-    fi 
+    fi
     # Base First
     cd base && make -f $MAKEFILE_PATH $action && cd -
     for directory in ./* # iterate over all files in current dir
@@ -27,7 +27,7 @@ function execute_action(){
         if [[ -d "$directory" && $directory != "./assembly" ]];then
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
         fi
-    done 
+    done
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
     # assembly and .devcontainer last
     cd "$BASE_PATH/assembly" && make -f $MAKEFILE_PATH $action && cd -
@@ -100,7 +100,7 @@ case ${choice} in
     ;;
     "devcontainer-push")
         make -f $MAKEFILE_PATH login
-        devcontainer_push 
+        devcontainer_push
     ;;
     "devcontainer-run")
         touch .dev
@@ -108,7 +108,7 @@ case ${choice} in
     ;;
     "git-login")
         gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
-        gh auth status  
+        gh auth status
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"

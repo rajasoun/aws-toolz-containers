@@ -1,7 +1,7 @@
-# workspace scripts 
+# workspace scripts
 ARG BASE_IMAGE
 ARG VERSION
-FROM ${BASE_IMAGE}:${VERSION}  as workspace-scripts 
+FROM ${BASE_IMAGE}:${VERSION}  as workspace-scripts
 
 # COPY Sift Left Security
 COPY    shift-left    /workspaces/shift-left
@@ -20,4 +20,3 @@ RUN find \
 		"/workspaces/version.txt" \
 		-type f -print0 \
 	| sort -z | xargs -r0 sha256sum | sha256sum | awk '{print $1}' > /workspaces/signature.txt
-

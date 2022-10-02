@@ -1,10 +1,10 @@
-# github cli 
+# github cli
 ARG BASE_IMAGE
 ARG VERSION
 FROM ${BASE_IMAGE}:${VERSION}  as gh
 
 ENV GITHUB_CLI_VERSION 2.16.1
-ENV ARCH arm64 
+ENV ARCH arm64
 
 RUN set -ex; \
     curl -L "https://github.com/cli/cli/releases/download/v${GITHUB_CLI_VERSION}/gh_${GITHUB_CLI_VERSION}_checksums.txt" -o checksums.txt; \

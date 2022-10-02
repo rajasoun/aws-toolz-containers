@@ -5,5 +5,3 @@ FROM ${BASE_IMAGE}:${VERSION}  as python-packages
 
 # pip requirements rarely change
 COPY packages/*.* /tmp/packages-tmp/
-
-

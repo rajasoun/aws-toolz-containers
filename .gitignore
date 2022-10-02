@@ -378,11 +378,10 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,linux,visualstudiocode,intellij+all,go,python
 
-.env 
+.env
 .env.bak
 .dockerhub.token
 .dev
 .ops
 
 github.token
-

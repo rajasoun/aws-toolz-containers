@@ -1,4 +1,4 @@
-# terraform 
+# terraform
 ARG BASE_IMAGE
 ARG VERSION
 FROM ${BASE_IMAGE}:${VERSION}  as terraform
