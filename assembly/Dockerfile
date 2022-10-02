@@ -34,11 +34,11 @@ COPY --from=rajasoun/aws-toolz-workspace-scripts:1.0.0          /workspaces     
 
 # aws cli 
 RUN set -ex \
-    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
     && unzip awscliv2.zip \
     && aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update \
     && aws --version
-
+    
 # Remove library scripts for final image
 RUN set -ex \
     && apt-get --purge remove unzip -y \

@@ -90,6 +90,10 @@ case ${choice} in
     "e2e-test")
         make -f .ci/Makefile test
     ;;
+    "git-login")
+        gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
+        gh auth status  
+    ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"
     echo "${ORANGE}When dir_path is not povided actions runs on all dirs${NC}"
@@ -102,6 +106,7 @@ Commands:
   clean       -> Clean all Containers
   run         -> Run container based on directory path
   e2e-test    -> Run e2e Tests on the Devcontainer
+  git-login   -> Git Login
 EOF
     ;;
 esac
