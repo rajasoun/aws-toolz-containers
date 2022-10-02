@@ -51,7 +51,7 @@ function devcontainer_push(){
     IMAGE_NAME="rajasoun/aws-toolz-devcontainer"
     VERSION="1.0.0"
 	echo -e "${BOLD}${YELLOW}Pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
-	devcontainer push --image-name ${IMAGE_NAME}:${VERSION}
+	docker push ${IMAGE_NAME}:${VERSION}
 	echo -e "${BOLD}${GREEN}Completed pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
 }
 
