@@ -47,6 +47,14 @@ function devcontainer_build(){
 	echo -e "${BOLD}${GREEN}Completed building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
 }
 
+function devcontainer_push(){
+    IMAGE_NAME="rajasoun/aws-toolz-devcontainer"
+    VERSION="1.0.0"
+	echo -e "${BOLD}${YELLOW}Pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
+	devcontainer push --image-name ${IMAGE_NAME}:${VERSION}
+	echo -e "${BOLD}${GREEN}Completed pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
+}
+
 function push(){
     directory=$1
     execute_action push $directory
@@ -75,9 +83,6 @@ case ${choice} in
     "build")
         build  $dir_path
     ;;
-    "devcontainer-build")
-        devcontainer_build ".devcontainer"
-    ;;
     "push")
         push   $dir_path
     ;;
@@ -89,6 +94,13 @@ case ${choice} in
     ;;
     "e2e-test")
         make -f .ci/Makefile test
+    ;;
+    "devcontainer-build")
+        devcontainer_build ".devcontainer"
+    ;;
+    "devcontainer-push")
+        make -f $MAKEFILE_PATH login
+        devcontainer_push 
     ;;
     "git-login")
         gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
@@ -102,11 +114,12 @@ cat <<-EOF
 Commands:
 ---------
   build                 -> Build all Containers
-  devcontainer-build    -> Build all in one container in assembly folder
   push                  -> Push all Containers
   clean                 -> Clean all Containers
   run                   -> Run container based on directory path
   e2e-test              -> Run e2e Tests on the Devcontainer
+  devcontainer-build    -> Build all in one container in assembly folder
+  devcontainer-push     -> Push all in one container to dockerhub
   git-login             -> Git Login
 EOF
     ;;
