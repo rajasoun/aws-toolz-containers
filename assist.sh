@@ -101,12 +101,13 @@ cat <<-EOF
 
 Commands:
 ---------
-  build       -> Build all Containers
-  push        -> Push all Containers
-  clean       -> Clean all Containers
-  run         -> Run container based on directory path
-  e2e-test    -> Run e2e Tests on the Devcontainer
-  git-login   -> Git Login
+  build                 -> Build all Containers
+  devcontainer-build    -> Build all in one container in assembly folder
+  push                  -> Push all Containers
+  clean                 -> Clean all Containers
+  run                   -> Run container based on directory path
+  e2e-test              -> Run e2e Tests on the Devcontainer
+  git-login             -> Git Login
 EOF
     ;;
 esac
