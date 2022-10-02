@@ -102,6 +102,10 @@ case ${choice} in
         make -f $MAKEFILE_PATH login
         devcontainer_push 
     ;;
+    "devcontainer-run")
+        touch .dev
+        .devcontainer/aws-toolz.sh
+    ;;
     "git-login")
         gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
         gh auth status  
@@ -120,6 +124,7 @@ Commands:
   e2e-test              -> Run e2e Tests on the Devcontainer
   devcontainer-build    -> Build all in one container in assembly folder
   devcontainer-push     -> Push all in one container to dockerhub
+  devcontainer-run      -> Launch Dev Container Shell
   git-login             -> Git Login
 EOF
     ;;
