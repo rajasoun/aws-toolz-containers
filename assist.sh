@@ -102,10 +102,6 @@ case ${choice} in
         make -f $MAKEFILE_PATH login
         devcontainer_push
     ;;
-    "devcontainer-run")
-        touch .dev
-        .devcontainer/aws-toolz.sh
-    ;;
     "git-login")
         gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
         gh auth status
