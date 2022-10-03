@@ -9,4 +9,3 @@ ENV USER_EMAIL=""
 
 COPY bin/aws-sso /usr/local/bin/aws-sso
 COPY scripts/aws-sso-init.sh /scripts/aws-sso-init.sh
-

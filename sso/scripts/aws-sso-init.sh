@@ -51,4 +51,3 @@ function init_pass_store(){
 
 generate_gpg_keys
 init_pass_store
-
