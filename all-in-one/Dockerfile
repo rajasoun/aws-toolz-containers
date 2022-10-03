@@ -1,5 +1,5 @@
 ARG VERSION="1.0.0"
-FROM rajasoun/aws-toolz-assembly:${VERSION} as aws-toolz-assembly
+FROM rajasoun/aws-toolz-assembly:${VERSION} as aws-toolz-all-in-one
 
 ARG USERNAME=vscode
 USER $USERNAME

@@ -6,7 +6,7 @@ SCRIPT_PATH="$BASE_DIR/workspace-scripts/automator/libs/os.sh"
 source "$SCRIPT_PATH"
 
 # VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-export name="rajasoun/aws-toolz-devcontainer"
+export name="rajasoun/aws-toolz-all-in-one"
 export VERSION=1.0.0
 
 # Workaround for Path Limitations in Windows
@@ -47,11 +47,6 @@ function launch(){
             -a STDOUT -a STDERR \
             --entrypoint=$ENTRY_POINT_CMD \
             --user vscode  \
-            --mount type=bind,source="${PWD}/.config/dotfiles/.gitconfig",target="/home/vscode/.gitconfig",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.ssh",target="/home/vscode/.ssh",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.gpg2/keys",target="/home/vscode/.gnupg",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.store",target="/home/vscode/.password-store",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.aws",target="/home/vscode/.aws",consistency=cached \
             --mount type=bind,source="${PWD}",target="/workspaces/$GIT_REPO_NAME",consistency=cached \
             --mount type=volume,src=vscode,dst=/vscode -l vsch.local.folder="${PWD}" \
             -l vsch.quality=stable -l vsch.remote.devPort=0 \
@@ -64,11 +59,9 @@ function setup(){
     if [ "$ENV" = "dev" ]; then
         echo "$(date)" > "$(git rev-parse --show-toplevel)/.dev"
         echo -e "\n${BOLD}${UNDERLINE}CI Shell For Dev${NC}"
-        _configure_ssh_gitconfig
         rm -fr "$(date)" > "$(git rev-parse --show-toplevel)/.ops"
     else
         echo -e "\n${BOLD}${UNDERLINE}CI Shell For Ops${NC}"
-        _git_config
     fi
     if [ -z $ENTRY_POINT_CMD ]; then
         ENTRY_POINT_CMD="/bin/zsh"
