@@ -37,7 +37,7 @@ function dev_help() {
 - - - - - - - - - - - - - -- - - - - - - - - - - - - -- - - - - - - - -
 gsetup		 - 	Install Git Flow, pre-commit & husky hooks
 ghooks		 - 	Install only pre-commit & husky hooks
-glogin		 - 	Web Login to GitHub
+glogin		 - 	Login to GitHub (parameter token)
 ssh-config	 - 	Generate SSH public & private Keys for Git
 gstatus		 - 	GitHub Login status
 grelease	 - 	Create Git Tag & Release through Automation
@@ -194,8 +194,6 @@ function git_hub_login() {
 function _gstatus(){
 	echo -e "GitHub Authentication Check"
 	gh auth status --hostname $(dotenv get GITHUB_URL)
-	echo -e "GitHub SSH Check"
-	ssh -T git@$(dotenv get GITHUB_URL)
 }
 
 function integrity(){
@@ -354,7 +352,7 @@ alias gaa="git add --all"
 alias gc="cz commit"
 alias gp="git_push"
 alias gclean="git fetch --prune origin && git gc"
-alias glogin="git_hub_login $@"
+alias glogin="git_hub_login token"
 alias ssh-config="_generate_ssh_keys"
 alias gstatus="_gstatus"
 alias ghooks="_install_git_hooks"
