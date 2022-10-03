@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-user_name="Raja Soundaramourty"
-user_email="rajasoun@cisco.com"
-
 function create_gpg_keys(){
-	CN=$user_name
-	EMAIL=$user_email
+	CN=$USER_NAME
+	EMAIL=$USER_EMAIL
     gpg2 --full-generate-key --batch  <<EOF
 %echo Generating a GPG key
 Key-Type: RSA

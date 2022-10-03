@@ -68,8 +68,12 @@ function clean(){
 function run(){
     directory=$1
     directory=$(echo $directory | sed 's/\.//g')
+    USER_NAME="$(git config user.name)"
+    USER_EMAIL="$(git config user.email)"
     docker run --rm -it \
         --entrypoint=/bin/zsh \
+        -e "USER_NAME=\"$USER_NAME"\" \
+        -e "USER_EMAIL=$USER_EMAIL" \
         rajasoun/aws-toolz-$directory:1.0.0
 }
 
