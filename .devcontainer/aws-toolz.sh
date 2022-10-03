@@ -40,6 +40,8 @@ function launch(){
     echo "Launching ci-shell for $name:$VERSION"
     # shellcheck disable=SC2140
     _docker run --rm -it \
+            -e "USER_NAME=\"$USER_NAME"\" \
+            -e "USER_EMAIL=$USER_EMAIL" \
             --name "ci-shell-$GIT_REPO_NAME" \
             --sig-proxy=false \
             -a STDOUT -a STDERR \
