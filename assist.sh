@@ -17,42 +17,31 @@ function execute_action(){
     directory=$2
     if [ ! -z $directory  ];then
         cd $directory && make -f $MAKEFILE_PATH $action && cd -
-        echo -e "${GREEN}Action $action on Container $directory successfull${NC}\n"
+        echo -e "${GREEN}Action $action for $directory successfull${NC}\n"
         return 0
     fi
     # Base First
     cd base && make -f $MAKEFILE_PATH $action && cd -
+    echo -e "${GREEN}Action $action for base successfull${NC}\n"
+
     for directory in ./* # iterate over all files in current dir
     do
-        if [[ -d "$directory" && $directory != "./assembly" ]];then
-            cd $directory && make -f $MAKEFILE_PATH $action && cd -
+        if [[ -d "$directory" && $directory != "./assembly" && $directory != "./all-in-one" ]];then
+            cd $directory && make -f $MAKEFILE_PATH $action && cd - 
+            echo -e "${GREEN}Action $action for $directory successfull${NC}\n"
         fi
     done
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
-    # assembly and .devcontainer last
-    cd "$BASE_PATH/assembly" && make -f $MAKEFILE_PATH $action && cd -
+    # assembly and all-in-one last
+    cd "$BASE_PATH/assembly"   && make -f $MAKEFILE_PATH $action && cd -
+    echo -e "${GREEN}Action $action for assembly successfull${NC}\n"
+    cd "$BASE_PATH/all-in-one" && make -f $MAKEFILE_PATH $action && cd -
+    echo -e "${GREEN}Action $action for all-in-one successfull${NC}\n"
 }
 
 function build(){
     directory=$1
     execute_action build $directory
-}
-
-function devcontainer_build(){
-    directory=$1
-    IMAGE_NAME="rajasoun/aws-toolz-devcontainer"
-    VERSION="1.0.0"
-	echo -e "${BOLD}${YELLOW}Building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
-	devcontainer build --image-name ${IMAGE_NAME}:${VERSION}
-	echo -e "${BOLD}${GREEN}Completed building docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
-}
-
-function devcontainer_push(){
-    IMAGE_NAME="rajasoun/aws-toolz-devcontainer"
-    VERSION="1.0.0"
-	echo -e "${BOLD}${YELLOW}Pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
-	docker push ${IMAGE_NAME}:${VERSION}
-	echo -e "${BOLD}${GREEN}Completed pushing docker image - ${IMAGE_NAME}:${VERSION} ${NC}"
 }
 
 function push(){
@@ -99,16 +88,13 @@ case ${choice} in
     "e2e-test")
         make -f .ci/Makefile test
     ;;
-    "devcontainer-build")
-        devcontainer_build ".devcontainer"
-    ;;
-    "devcontainer-push")
-        make -f $MAKEFILE_PATH login
-        devcontainer_push
-    ;;
     "git-login")
         gh auth login --hostname $GIT --git-protocol ssh --with-token < github.token
         gh auth status
+        ssh -T git@github.com
+    ;;
+    "aws-toolz ")
+        all-in-one/aws-toolz.sh dev
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"
@@ -122,10 +108,8 @@ Commands:
   clean                 -> Clean all Containers
   run                   -> Run container based on directory path
   e2e-test              -> Run e2e Tests on the Devcontainer
-  devcontainer-build    -> Build all in one container in assembly folder
-  devcontainer-push     -> Push all in one container to dockerhub
-  devcontainer-run      -> Launch Dev Container Shell
   git-login             -> Git Login
+  aws-toolz             -> Launch all-in-one shell 
 EOF
     ;;
 esac
