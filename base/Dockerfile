@@ -9,7 +9,7 @@ RUN set -x \
        zsh-autosuggestions make unzip \
        zsh-syntax-highlighting python3-pip python3-setuptools \
        pass gnupg2 httpie netcat sudo \
-       curl wget ca-certificates git \
+       curl wget ca-certificates git openssh-client \
        iproute2 procps jq lsb-release liblttng-ust0 \
     && apt-get autoremove -y  \
     && apt-get clean -y \

@@ -48,6 +48,11 @@ function launch(){
             -a STDOUT -a STDERR \
             --entrypoint=$ENTRY_POINT_CMD \
             --user vscode  \
+            --mount type=bind,source="${PWD}/.config/dotfiles/.gitconfig",target="/home/vscode/.gitconfig",consistency=cached \
+            --mount type=bind,source="${PWD}/.config/.ssh",target="/home/vscode/.ssh",consistency=cached \
+            --mount type=bind,source="${PWD}/.config/.gpg2/keys",target="/home/vscode/.gnupg",consistency=cached \
+            --mount type=bind,source="${PWD}/.config/.store",target="/home/vscode/.password-store",consistency=cached \
+            --mount type=bind,source="${PWD}/.config/.aws",target="/home/vscode/.aws",consistency=cached \
             --mount type=bind,source="${PWD}",target="/workspaces/$GIT_REPO_NAME",consistency=cached \
             --mount type=volume,src=vscode,dst=/vscode -l vsch.local.folder="${PWD}" \
             -l vsch.quality=stable -l vsch.remote.devPort=0 \
