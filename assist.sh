@@ -27,7 +27,7 @@ function execute_action(){
     for directory in ./* # iterate over all files in current dir
     do
         if [[ -d "$directory" && $directory != "./assembly" && $directory != "./all-in-one" ]];then
-            cd $directory && make -f $MAKEFILE_PATH $action && cd - 
+            cd $directory && make -f $MAKEFILE_PATH $action && cd -
             echo -e "${GREEN}Action $action for $directory successfull${NC}\n"
         fi
     done
@@ -82,10 +82,10 @@ case ${choice} in
     "clean")
         if [ ! -z $dir_path  ];then
             clean  $dir_path
-        else 
+        else
             docker rmi $(docker images -a --filter=reference="rajasoun/aws-toolz-*" -q)
             echo -e "${GREEN}Action $action for all imagessuccessfull${NC}\n"
-        fi        
+        fi
     ;;
     "run")
         run  $dir_path
@@ -98,7 +98,7 @@ case ${choice} in
         gh auth status
         ssh -T git@github.com
     ;;
-    "aws-toolz ")
+    "aws-toolz")
         all-in-one/aws-toolz.sh dev
     ;;
     *)
@@ -114,7 +114,7 @@ Commands:
   run                   -> Run container based on directory path
   e2e-test              -> Run e2e Tests on the Devcontainer
   git-login             -> Git Login
-  aws-toolz             -> Launch all-in-one shell 
+  aws-toolz             -> Launch all-in-one shell
 EOF
     ;;
 esac

@@ -45,7 +45,7 @@ infra-test	 - 	Run End to End Test on Devcontainer Infrastructure
 code-churn	 - 	Frequency of change to code base
 pretty		 - 	Code prettier
 precommit	 - 	Run Pre-commit checks on all Files
-ci		 	 - 	CI/ for Devcontainer
+ci			 - 	CI/ for Devcontainer
 alias		 - 	List all Alias
 - - - - - - - - - - - - - -- - - - - - - - - - - - - -- - - - - - - - - -
 "
