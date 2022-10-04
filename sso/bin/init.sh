@@ -16,13 +16,15 @@ function check_vpn_connection() {
 }
 
 function git_clone(){
+    cd sso/bin/
     if [ ! -d duo-sso ];then 
         git clone https://$VPN_GIT_HOST/ATS-operations/duo-sso/
     fi
+    cd -
 }
 
 function build_linux_bin(){
-    cd duo-sso
+    cd sso/bin/duo-sso
     if [ ! -f build/duo-sso_linux_amd64 ];then 
         BUILD_IMAGE=golang:1.19
         mkdir -p build
@@ -33,15 +35,15 @@ function build_linux_bin(){
 }
 
 function clean(){
-    rm -fr duo-sso
+    rm -fr sso/bin/duo-sso
 }
 
 function main(){
-    if [ ! -f bin/aws-sso ];then 
+    if [ ! -f sso/bin/aws-sso ];then 
         check_vpn_connection "$VPN_GIT_HOST" 443 || return 1
         git_clone
         build_linux_bin
-        mv duo-sso/build/aws-sso bin/aws-sso
+        mv sso/bin/duo-sso/build/aws-sso sso/bin/aws-sso
         clean
     else 
         echo -e "aws-sso binary exists"

@@ -1,3 +1,3 @@
 # Getting Started 
 
-Run `bin/init.sh` before building the docker container
+Run `sso/bin/init.sh` before building the docker container
