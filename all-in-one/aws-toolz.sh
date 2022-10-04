@@ -9,6 +9,9 @@ source "$SCRIPT_PATH"
 export name="rajasoun/aws-toolz-all-in-one"
 export VERSION=1.0.0
 
+export USER_NAME="$(git config user.name)"
+export USER_EMAIL="$(git config user.email)"
+
 # Workaround for Path Limitations in Windows
 function _docker() {
   export MSYS_NO_PATHCONV=1

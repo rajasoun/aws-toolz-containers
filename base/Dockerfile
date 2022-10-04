@@ -6,7 +6,7 @@ RUN set -x \
     && apt-get upgrade -y \
     && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-       zsh-autosuggestions make unzip \
+       zsh-autosuggestions make unzip less \
        zsh-syntax-highlighting python3-pip python3-setuptools \
        pass gnupg2 httpie netcat sudo \
        curl wget ca-certificates git openssh-client \
