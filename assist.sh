@@ -80,7 +80,12 @@ case ${choice} in
         push   $dir_path
     ;;
     "clean")
-        clean  $dir_path
+        if [ ! -z $dir_path  ];then
+            clean  $dir_path
+        else 
+            docker rmi $(docker images -a --filter=reference="rajasoun/aws-toolz-*" -q)
+            echo -e "${GREEN}Action $action for all imagessuccessfull${NC}\n"
+        fi        
     ;;
     "run")
         run  $dir_path
