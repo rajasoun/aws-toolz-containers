@@ -46,7 +46,7 @@ function launch(){
             -h "toolz-shell" \
             -e "USER_NAME=\"$USER_NAME"\" \
             -e "USER_EMAIL=$USER_EMAIL" \
-            --name "toolz-shell-$GIT_REPO_NAME" \
+            --name "toolz-shell" \
             --sig-proxy=false \
             -a STDOUT -a STDERR \
             --entrypoint=$ENTRY_POINT_CMD \
