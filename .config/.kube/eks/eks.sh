@@ -31,6 +31,10 @@ function dettach_iam_policy_to_role(){
         --role-name $EKS_CLUSTER_ROLE
 }
 
+function create_eks_cluster(){
+    eksctl create cluster --config-file cluster-1.23.yaml
+}
+
 function main(){
     EKS_CLUSTER_ROLE="eks"
     create_iam_role $@
