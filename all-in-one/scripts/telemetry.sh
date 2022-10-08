@@ -54,9 +54,9 @@ aws_resources=(
 
 function list_aws_resources(){
     for resource in $aws_resources; do
-        echo "## $resource" 
+        echo "## $resource"
         awless list $resource
-    done 
+    done
 }
 
 function whoami(){
@@ -70,13 +70,6 @@ function aws_services_used(){
         --metrics UsageQuantity \
         --group-by Type=DIMENSION,Key=SERVICE \
         | jq '.ResultsByTime[].Groups[] | select(.Metrics.UsageQuantity.Amount > 0) | .Keys[0]' | tr -d '"'
-}
-
-function configure_kubectl(){
-    export cluster=Development
-    export region=us-east-1
-    export account_id=$(aws sts get-caller-identity --output text --query 'Account')
-    aws eks update-kubeconfig --region $region  --name $cluster
 }
 
 function aws_services_used_with_cost(){
@@ -93,6 +86,10 @@ function list_eks_pods(){
     REMOVE_FROM_WORD="-development"
     pod_list=$(kubectl get pods -o json | jq '.items[].metadata.name' |  sed "s/$REMOVE_FROM_WORD.*//" | sort | uniq | tr -d '"')
     echo $pod_list
+}
+
+function list_eks_non_running_pods(){
+    kubectl get pods --field-selector=status.phase!=Running | grep -v Complete
 }
 
 function list_eks_services(){
@@ -117,7 +114,7 @@ function list_ec2_in_all_regions(){
     for region in $(aws ec2 describe-regions --output text | cut -f4);do
         echo -e "\nListing Instances in region:'$region'..."
         awless list instances --aws-region "$region"
-    done    
+    done
 }
 
 function profile_aws_account(){
