@@ -22,6 +22,7 @@ COPY --from=rajasoun/aws-toolz-terragrunt:1.0.0                /usr/local/bin/te
 COPY --from=rajasoun/aws-toolz-packer:1.0.0                    /usr/local/bin/packer                   /usr/local/bin/packer
 COPY --from=rajasoun/aws-toolz-grype:1.0.0                     /usr/local/bin/grype                    /usr/local/bin/grype
 COPY --from=rajasoun/aws-toolz-kubectl:1.0.0                   /usr/local/bin/kubectl                  /usr/local/bin/kubectl
+COPY --from=rajasoun/aws-toolz-krew:1.0.0                      /usr/local/bin/kubectl-krew             /usr/local/bin/kubectl-krew
 COPY --from=rajasoun/aws-toolz-eksctl:1.0.0                    /usr/local/bin/eksctl                   /usr/local/bin/eksctl
 COPY --from=rajasoun/aws-toolz-helm:1.0.0                      /usr/local/bin/helm                     /usr/local/bin/helm
 COPY --from=rajasoun/aws-toolz-sentry:1.0.0                    /usr/local/bin/sentry-cli               /usr/local/bin/sentry-cli
