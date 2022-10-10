@@ -107,7 +107,7 @@ case ${choice} in
         ssh -T git@github.com
     ;;
     "aws-toolz")
-        aws-all-in-one/aws-toolz.sh dev
+        all-in-one/dev-toolz.sh "dev" "/bin/zsh" "aws"
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"

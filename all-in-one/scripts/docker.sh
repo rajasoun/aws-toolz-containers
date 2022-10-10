@@ -1,16 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env 
 
-BASE_DIR="$(git rev-parse --show-toplevel)"
-SCRIPT_PATH="$BASE_DIR/workspace-scripts/automator/libs/os.sh"
-# shellcheck source=/dev/null
-source "$SCRIPT_PATH"
-
-# VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-export name="rajasoun/dev-toolz-aws-all-in-one"
-export VERSION=1.0.0
-
-export USER_NAME="$(git config user.name)"
-export USER_EMAIL="$(git config user.email)"
 
 # Workaround for Path Limitations in Windows
 function _docker() {
@@ -40,13 +29,13 @@ function _docker() {
 function launch(){
     ENTRY_POINT_CMD=$1
     GIT_REPO_NAME="$(basename "$(git rev-parse --show-toplevel)")"
-    echo "Launching ci-shell for $name:$VERSION"
+    echo "Launching ci-shell for $CONTAINER_NAME:$VERSION"
     # shellcheck disable=SC2140
     _docker run --rm -it \
-            -h "toolz-shell" \
+            -h "dev-toolz-$SHELL_NAME-shell" \
             -e "USER_NAME=\"$USER_NAME"\" \
             -e "USER_EMAIL=$USER_EMAIL" \
-            --name "toolz-shell" \
+            --name "dev-toolz-$SHELL_NAME" \
             --sig-proxy=false \
             -a STDOUT -a STDERR \
             --entrypoint=$ENTRY_POINT_CMD \
@@ -62,7 +51,7 @@ function launch(){
             --mount src=vscode,dst=/vscode -l vsch.local.folder="${PWD}",type=volume \
             -l vsch.quality=stable -l vsch.remote.devPort=0 \
             -w "/workspaces/$GIT_REPO_NAME" \
-            "$name:$VERSION"
+            "$CONTAINER_NAME:$VERSION"
 }
 
 function setup(){
@@ -74,17 +63,26 @@ function setup(){
     else
         echo -e "\n${BOLD}${UNDERLINE}CI Shell For Ops${NC}"
     fi
+
     if [ -z $ENTRY_POINT_CMD ]; then
         ENTRY_POINT_CMD="/bin/zsh"
     fi
 }
 
-function main(){
-    ENV=$1
-    ENTRY_POINT_CMD=$2
+function docker_main(){
+    ENV=${1:-'dev'}
+    ENTRY_POINT_CMD=${2:-'/bin/zsh'}
+    export SHELL_NAME=${3:-'aws'}
 
     setup $ENV
     launch $ENTRY_POINT_CMD
 }
 
-main $@
+
+
+# Wrapper To Aid TDD
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  if ! docker_main "$@"; then
+    exit 1
+  fi
+fi
