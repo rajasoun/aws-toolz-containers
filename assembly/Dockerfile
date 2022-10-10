@@ -14,6 +14,7 @@ RUN set -ex \
 COPY --from=rajasoun/aws-toolz-aws-vault:1.0.0                 /usr/local/bin/aws-vault                /usr/local/bin/aws-vault
 COPY --from=rajasoun/aws-toolz-cloud-nuke:1.0.0                /usr/local/bin/cloud-nuke               /usr/local/bin/cloud-nuke
 COPY --from=rajasoun/aws-toolz-aws-nuke:1.0.0                  /usr/local/bin/aws-nuke                 /usr/local/bin/aws-nuke
+COPY --from=rajasoun/aws-toolz-aws-crawl:1.0.0                 /usr/local/bin/aws-crawl                /usr/local/bin/aws-crawl
 COPY --from=rajasoun/aws-toolz-awless:1.0.0                    /usr/local/bin/awless                   /usr/local/bin/awless
 COPY --from=rajasoun/aws-toolz-fetch:1.0.0                     /usr/local/bin/fetch                    /usr/local/bin/fetch
 COPY --from=rajasoun/aws-toolz-syft:1.0.0                      /usr/local/bin/syft                     /usr/local/bin/syft
