@@ -110,7 +110,7 @@ case ${choice} in
         SHELL_NAME="aws"
         SHELL_MODE="dev"
         SHELL_ENTRYPOINT="/bin/zsh" 
-        all-in-one/dev-toolz.sh $SHELL_NAME $SHELL_MODE $SHELL_ENTRYPOINT
+        dev-toolz-shell $SHELL_NAME $SHELL_MODE $SHELL_ENTRYPOINT
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"
