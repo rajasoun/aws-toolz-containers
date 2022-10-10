@@ -51,15 +51,15 @@ function launch(){
             -a STDOUT -a STDERR \
             --entrypoint=$ENTRY_POINT_CMD \
             --user vscode  \
-            --mount type=bind,source="${PWD}/.config/dotfiles/.gitconfig",target="/home/vscode/.gitconfig",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.ssh",target="/home/vscode/.ssh",consistency=cached \
-             --mount type=bind,source="${PWD}/.config/.sso",target="/home/vscode/.duo-sso",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.kube",target="/home/vscode/.kube",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.gpg2/keys",target="/home/vscode/.gnupg",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.store",target="/home/vscode/.password-store",consistency=cached \
-            --mount type=bind,source="${PWD}/.config/.aws",target="/home/vscode/.aws",consistency=cached \
-            --mount type=bind,source="${PWD}",target="/workspaces/$GIT_REPO_NAME",consistency=cached \
-            --mount type=volume,src=vscode,dst=/vscode -l vsch.local.folder="${PWD}" \
+            --mount source="${PWD}/.config/dotfiles/.gitconfig",target="/home/vscode/.gitconfig",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.ssh",target="/home/vscode/.ssh",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.sso",target="/home/vscode/.duo-sso",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.kube",target="/home/vscode/.kube",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.gpg2/keys",target="/home/vscode/.gnupg",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.store",target="/home/vscode/.password-store",type=bind,consistency=cached \
+            --mount source="${PWD}/.config/.aws",target="/home/vscode/.aws",type=bind,consistency=cached \
+            --mount source="${PWD}",target="/workspaces/$GIT_REPO_NAME",type=bind,consistency=cached \
+            --mount src=vscode,dst=/vscode -l vsch.local.folder="${PWD}",type=volume \
             -l vsch.quality=stable -l vsch.remote.devPort=0 \
             -w "/workspaces/$GIT_REPO_NAME" \
             "$name:$VERSION"
