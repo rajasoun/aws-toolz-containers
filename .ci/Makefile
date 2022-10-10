@@ -6,7 +6,7 @@ RESET :=$(shell tput sgr0)
 
 NAME := $(shell basename $(PWD) | sed 's/\.//g')
 LIST_TAGS := $(shell git tag -l)
-IMAGE_NAME=rajasoun/aws-toolz-$(NAME)
+IMAGE_NAME=rajasoun/dev-toolz-$(NAME)
 #VERSION := $(shell [ "${LIST_TAGS}" ] && echo "$(shell git describe --tags --abbrev=0)" ||  echo 1.0.0 )
 BASE_PATH=$(shell git rev-parse --show-toplevel)
 BASE_IMAGE=$(shell cat $(BASE_PATH)/.ci/base_image.txt)
@@ -78,7 +78,7 @@ clean: ## Remove Base Container Image
 
 test: ## Automated e2e Test Suite for devcontainer
 	@echo "$(BOLD)$(YELLOW) DevContainer e2e Tests $(RESET)"
-	all-in-one/aws-toolz.sh ops /workspaces/tests/system/e2e_tests.sh
+	aws-all-in-one/aws-toolz.sh ops /workspaces/tests/system/e2e_tests.sh
 	@echo "$(BOLD)$(GREEN)Completed DevContainer e2e Tests $(RESET)"
 
 all:  prerequisite build login push clean ## All in One Command - (prerequisite git build login push clean)

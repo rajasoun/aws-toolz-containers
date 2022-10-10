@@ -15,26 +15,34 @@ MAKEFILE_PATH="$BASE_PATH/.ci/Makefile"
 function execute_action(){
     action=$1
     directory=$2
+
+    # Execute Action By Directory and Return
     if [ ! -z $directory  ];then
         cd $directory && make -f $MAKEFILE_PATH $action && cd -
         echo -e "${GREEN}Action $action for $directory successfull${NC}\n"
         return 0
     fi
+
+    # Build Every Thing
     # Base First
     cd base && make -f $MAKEFILE_PATH $action && cd -
     echo -e "${GREEN}Action $action for base successfull${NC}\n"
 
-    for directory in ./* # iterate over all files in current dir
+    for directory in ./* # iterate over all files in current dir execit *-assembly and all-in-one
     do
-        if [[ -d "$directory" && $directory != "./assembly" && $directory != "./all-in-one" ]];then
+        if [[ -d "$directory" \
+                && $directory != "./aws-assembly" \
+                && $directory != "./all-in-one" ]];then
             cd $directory && make -f $MAKEFILE_PATH $action && cd -
             echo -e "${GREEN}Action $action for $directory successfull${NC}\n"
         fi
     done
     echo -e "${GREEN}Action $action on All Containers successfull${NC}\n"
+
     # assembly and all-in-one last
-    cd "$BASE_PATH/assembly"   && make -f $MAKEFILE_PATH $action && cd -
+    cd "$BASE_PATH/aws-assembly"   && make -f $MAKEFILE_PATH $action && cd -
     echo -e "${GREEN}Action $action for assembly successfull${NC}\n"
+    
     cd "$BASE_PATH/all-in-one" && make -f $MAKEFILE_PATH $action && cd -
     echo -e "${GREEN}Action $action for all-in-one successfull${NC}\n"
 }
@@ -63,7 +71,7 @@ function run(){
         --entrypoint=/bin/zsh \
         -e "USER_NAME=\"$USER_NAME"\" \
         -e "USER_EMAIL=$USER_EMAIL" \
-        rajasoun/aws-toolz-$directory:1.0.0
+        rajasoun/dev-toolz-$directory:1.0.0
 }
 
 opt="$1"
@@ -83,7 +91,7 @@ case ${choice} in
         if [ ! -z $dir_path  ];then
             clean  $dir_path
         else
-            docker rmi $(docker images -a --filter=reference="rajasoun/aws-toolz-*" -q)
+            docker rmi $(docker images -a --filter=reference="rajasoun/dev-toolz-*" -q)
             echo -e "${GREEN}Action $action for all imagessuccessfull${NC}\n"
         fi
     ;;
@@ -99,7 +107,7 @@ case ${choice} in
         ssh -T git@github.com
     ;;
     "aws-toolz")
-        all-in-one/aws-toolz.sh dev
+        aws-all-in-one/aws-toolz.sh dev
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"

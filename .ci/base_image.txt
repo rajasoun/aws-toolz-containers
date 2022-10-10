@@ -1,1 +1,1 @@
-rajasoun/aws-toolz-base
+rajasoun/dev-toolz-base

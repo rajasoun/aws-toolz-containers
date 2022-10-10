@@ -6,7 +6,7 @@ SCRIPT_PATH="$BASE_DIR/workspace-scripts/automator/libs/os.sh"
 source "$SCRIPT_PATH"
 
 # VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-export name="rajasoun/aws-toolz-all-in-one"
+export name="rajasoun/dev-toolz-aws-all-in-one"
 export VERSION=1.0.0
 
 export USER_NAME="$(git config user.name)"
