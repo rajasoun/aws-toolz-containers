@@ -33,6 +33,11 @@ function dettach_iam_policy_to_role(){
 
 function create_eks_cluster(){
     eksctl create cluster --config-file cluster-1.23.yaml
+    eksctl get  clusters --region us-east-2
+}
+
+function delete_eks_cluster(){
+    eksctl delete  cluster --config-file  cluster-1.23.yaml
 }
 
 function main(){
