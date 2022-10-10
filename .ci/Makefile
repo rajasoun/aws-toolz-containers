@@ -78,7 +78,10 @@ clean: ## Remove Base Container Image
 
 test: ## Automated e2e Test Suite for devcontainer
 	@echo "$(BOLD)$(YELLOW) DevContainer e2e Tests $(RESET)"
-	all-in-one/dev-toolz.sh "ops" "/workspaces/tests/system/e2e_tests.sh" "e2e-test"
+	SHELL_NAME="dev-toolz-e2e-test"
+	SHELL_MODE="dev"
+	SHELL_ENTRYPOINT="/bin/zsh" 
+	all-in-one/dev-toolz.sh $(SHELL_NAME) $(SHELL_MODE) $(SHELL_ENTRYPOINT)
 	@echo "$(BOLD)$(GREEN)Completed DevContainer e2e Tests $(RESET)"
 
 all:  prerequisite build login push clean ## All in One Command - (prerequisite git build login push clean)

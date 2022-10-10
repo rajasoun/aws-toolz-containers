@@ -107,7 +107,10 @@ case ${choice} in
         ssh -T git@github.com
     ;;
     "aws-toolz")
-        all-in-one/dev-toolz.sh "dev" "/bin/zsh" "aws"
+        SHELL_NAME="aws"
+        SHELL_MODE="dev"
+        SHELL_ENTRYPOINT="/bin/zsh" 
+        all-in-one/dev-toolz.sh $SHELL_NAME $SHELL_MODE $SHELL_ENTRYPOINT
     ;;
     *)
     echo "${RED}Usage: assist.sh < build | push | clean > [dir_path] ${NC}"

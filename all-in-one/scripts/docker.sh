@@ -70,9 +70,13 @@ function setup(){
 }
 
 function docker_main(){
-    ENV=${1:-'dev'}
-    ENTRY_POINT_CMD=${2:-'/bin/zsh'}
     export SHELL_NAME=${3:-'aws'}
+    ENV=${2:-'dev'}
+    ENTRY_POINT_CMxD=${3:-'/bin/zsh'}
+
+    # VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
+    export CONTAINER_NAME="rajasoun/dev-toolz-$SHELL_NAME-all-in-one"
+    export VERSION=1.0.0
 
     setup $ENV
     launch $ENTRY_POINT_CMD
