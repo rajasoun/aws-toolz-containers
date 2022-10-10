@@ -1,4 +1,16 @@
-#!/usr/bin/env 
+#!/usr/bin/env bash
+
+BASE_DIR="$(git rev-parse --show-toplevel)"
+
+export USER_NAME="$(git config user.name)"
+export USER_EMAIL="$(git config user.email)"
+
+export SHELL_NAME=${1:-'aws'}
+ENV=${2:-'dev'}
+ENTRY_POINT_CMD=${3:-'/bin/zsh'}
+
+export CONTAINER_NAME="rajasoun/dev-toolz-$SHELL_NAME-all-in-one"
+export VERSION=1.0.0
 
 
 # Workaround for Path Limitations in Windows
@@ -70,23 +82,8 @@ function setup(){
 }
 
 function docker_main(){
-    export SHELL_NAME=${1:-'aws'}
-    ENV=${2:-'dev'}
-    ENTRY_POINT_CMxD=${3:-'/bin/zsh'}
-
-    # VERSION=$(git describe --tags --abbrev=0 | sed -Ee 's/^v|-.*//')
-    export CONTAINER_NAME="rajasoun/dev-toolz-$SHELL_NAME-all-in-one"
-    export VERSION=1.0.0
-
     setup $ENV
     launch $ENTRY_POINT_CMD
 }
 
-
-
-# Wrapper To Aid TDD
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  if ! docker_main "$@"; then
-    exit 1
-  fi
-fi
+docker_main $@
