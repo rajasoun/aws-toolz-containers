@@ -70,7 +70,7 @@ function setup(){
 }
 
 function docker_main(){
-    export SHELL_NAME=${3:-'aws'}
+    export SHELL_NAME=${1:-'aws'}
     ENV=${2:-'dev'}
     ENTRY_POINT_CMxD=${3:-'/bin/zsh'}
 
