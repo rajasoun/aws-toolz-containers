@@ -8,7 +8,7 @@ GREEN=$'\e[32m'
 BLUE=$'\e[34m'
 ORANGE=$'\x1B[33m'
 
-function set_env() {
+function aws_profile_config() {
   if [ ! -f ~/.aws/config ]; then
     echo -e "You must have AWS profiles set up in ~/.aws/config"
     return 1
@@ -28,4 +28,21 @@ function set_env() {
     done
   fi
 }
-set_env "$@"
+
+function kube_config(){
+    export cluster=Development
+    export region=us-east-1
+    export account_id=$(aws sts get-caller-identity --output text --query 'Account')
+
+
+    aws eks update-kubeconfig --region $region  --name $cluster
+    export KUBECONFIG=$KUBECONFIG:~/.kube/config
+}
+
+aws-sso
+aws_profile_config
+kube_config
+
+echo -e "export AWS_PROFILE=$AWS_PROFILE" > .config/.aws/env
+echo -e "export KUBECONFIG=$KUBECONFIG:~/.kube/config" >> .config/.aws/env
+source .config/.aws/env
