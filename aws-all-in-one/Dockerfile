@@ -1,6 +1,6 @@
 ARG BASE_ASSEMBLY_IMAGE="aws-assembly"
 ARG VERSION="1.0.0"
-FROM rajasoun/dev-toolz-${BASE_ASSEMBLY_IMAGE}:${VERSION} 
+FROM rajasoun/dev-toolz-${BASE_ASSEMBLY_IMAGE}:${VERSION}
 
 ARG USERNAME=vscode
 USER $USERNAME
@@ -18,4 +18,3 @@ RUN id -u $USERNAME | xargs -I{} chown -R {}:{} /home/$USERNAME
 # COPY .zshrc & chnagelog config
 COPY dotfiles/.zshrc        /home/$USERNAME/
 COPY dotfiles/.czrc         /home/$USERNAME/
-COPY scripts                /workspaces/

@@ -52,6 +52,10 @@ aws_resources=(
     zones
 )
 
+function whoami(){
+    { aws sts get-caller-identity & aws iam list-account-aliases; } | jq -s ".|add"
+}
+
 function list_aws_resources(){
     for resource in $aws_resources; do
         echo "## $resource"
@@ -59,11 +63,8 @@ function list_aws_resources(){
     done
 }
 
-function whoami(){
-    { aws sts get-caller-identity & aws iam list-account-aliases; } | jq -s ".|add"
-}
 
-function aws_services_used(){
+function list_aws_services_used_using_cost_explorer(){
     aws ce get-cost-and-usage \
         --time-period Start=$(date "+%Y-%m-01" -d "-1 Month"),End=$(date --date="$(date +'%Y-%m-01') - 1 second" -I) \
         --granularity MONTHLY \
@@ -72,7 +73,7 @@ function aws_services_used(){
         | jq '.ResultsByTime[].Groups[] | select(.Metrics.UsageQuantity.Amount > 0) | .Keys[0]' | tr -d '"'
 }
 
-function aws_services_used_with_cost(){
+function list_aws_services_used_with_cost_using_cost_explorer(){
     aws ce get-cost-and-usage \
         --time-period Start=$(date "+%Y-%m-01"),End=$(date --date="$(date +'%Y-%m-01') + 1 month  - 1 second" -I) \
         --granularity MONTHLY \
@@ -105,16 +106,16 @@ function list_ingress_access_to_ports(){
         | jq '[ .SecurityGroups[].IpPermissions[] as $a | { "ports": [($a.FromPort|tostring),($a.ToPort|tostring)]|unique, "cidr": $a.IpRanges[].CidrIp } ] | [group_by(.cidr)[] | { (.[0].cidr): [.[].ports|join("-")]|unique }] | add'
 }
 
-function check_lambds_exposing_secrets(){
-    aws lambda list-functions \
-        | jq -r '[.Functions[]|{name: .FunctionName, env: .Environment.Variables}]|.[]|select(.env|length > 0)'
-}
-
 function list_ec2_in_all_regions(){
     for region in $(aws ec2 describe-regions --output text | cut -f4);do
         echo -e "\nListing Instances in region:'$region'..."
         awless list instances --aws-region "$region"
     done
+}
+
+function check_lambda_functions_exposing_secret(){
+    aws lambda list-functions \
+        | jq -r '[.Functions[]|{name: .FunctionName, env: .Environment.Variables}]|.[]|select(.env|length > 0)'
 }
 
 function profile_aws_account(){
@@ -173,12 +174,62 @@ function profile_aws_account(){
     awless list elasticips
 }
 
-function main(){
+function aws_profile_config() {
+  if [ ! -f ~/.aws/config ]; then
+    echo -e "You must have AWS profiles set up in ~/.aws/config"
+    return 1
+  fi
+
+  local list=$(grep '^[[]profile' <~/.aws/config | awk '{print $2}' | sed 's/]$//')
+  if [[ -z $list ]]; then
+    echo -e "You must have AWS profiles set up in ~/.aws/config"
+    return 1
+  fi
+
+  # if AWS_PROFILE is empty - Interative Mode
+  if [ -z "$AWS_PROFILE" ];then
+    local nlist=$(echo "$list" | nl)
+    while [[ -z $AWS_PROFILE ]]; do
+        export AWS_PROFILE=$(read -p "AWS profile? `echo $'\n\r'`$nlist `echo $'\n> '`" N; echo "$list" | sed -n ${N}p)
+    done
+  fi
+}
+
+function kube_config(){
+    export cluster=Development
+    export region=us-east-1
+    export account_id=$(aws sts get-caller-identity --output text --query 'Account')
+
+
+    aws eks update-kubeconfig --region $region  --name $cluster
     export KUBECONFIG=$KUBECONFIG:~/.kube/config
-    configure_kubectl
+}
+
+function set_env(){
+    aws-sso
+    aws_profile_config
+    kube_config
     whoami
-    aws_services_used
-    aws_services_used_with_cost
+    echo -e "export AWS_PROFILE=$AWS_PROFILE" > .config/.aws/.env
+    echo -e "export KUBECONFIG=$KUBECONFIG:~/.kube/config" >> .config/.aws/.env
+    source .config/.aws/.env
+}
+
+function main(){
+    whoami
+    list_aws_resources
+    list_aws_services_used_using_cost_explorer
+    list_aws_services_used_with_cost_using_cost_explorer
+    list_eks_pods
+    list_eks_non_running_pods
+    list_eks_services
+    list_ingress_access_to_ports
+    list_ec2_in_all_regions
+    check_lambda_functions_exposing_secret
+
+    aws_profile_config
+    kube_config
+    set_env
 }
 
 # Wrapper To Aid TDD
