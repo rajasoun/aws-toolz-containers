@@ -9,9 +9,11 @@ else
 	SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.config/"
 fi
 
-SCRIPT_PATH="$SCRIPT_DIR/automator/libs/os.sh"
+SCRIPT_PATH="$SCRIPT_DIR/automator/libs"
 # shellcheck source=/dev/null
-source "$SCRIPT_PATH"
+source "$SCRIPT_PATH/os.sh"
+# shellcheck source=/dev/null
+source "$SCRIPT_PATH/aws.sh"
 
 case "$OSTYPE" in
 darwin*)

@@ -199,7 +199,7 @@ function set_env(){
 }
 
 function main(){
-    whoami
+    set_env
     list_aws_resources
     list_aws_services_used_using_cost_explorer
     list_aws_services_used_with_cost_using_cost_explorer
@@ -209,10 +209,6 @@ function main(){
     list_ingress_access_to_ports
     list_ec2_in_all_regions
     check_lambda_functions_exposing_secret
-
-    aws_profile_config
-    kube_config
-    set_env
 }
 
 # Wrapper To Aid TDD
