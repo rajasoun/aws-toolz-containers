@@ -59,6 +59,7 @@ function ops_help() {
 - - - - - - - - - - - - - -- - - - - - - - - - - - - -- - - - - - - - -
        			${BOLD}Shortcuts${NC}
 - - - - - - - - - - - - - -- - - - - - - - - - - - - -- - - - - - - - -
+set-env		 -  Wrapper to Set Env For AWS CLI and kubectl
 aws-env		 - 	Wrapper to aws-vault
 aws-whoami	 - 	Prints AWS Identity of the current aws-vault env
 aws-bill	 - 	Generates AWS Bill for the given aws-vault Profile
@@ -371,6 +372,7 @@ alias infra-test='/workspaces/tests/system/e2e_tests.sh'
 alias aws-env="$(git rev-parse --show-toplevel)/.config/.aws/aws_vault_env.sh"
 alias aws-whoami="aws_whoami $@"
 alias aws-bill="aws_bill $@"
+alias set-env="set_env $@"
 
 # For Sentry
 alias init-debug='init_debug'
