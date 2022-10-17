@@ -175,7 +175,24 @@ function profile_aws_account(){
 }
 
 function aws_profile_config() {
-    /bin/bash -c "/workspace/automation/libs/aws_profile.sh"
+  if [ ! -f ~/.aws/config ]; then
+    echo -e "You must have AWS profiles set up in ~/.aws/config"
+    return 1
+  fi
+
+  local list=$(grep '^[[]profile' <~/.aws/config | awk '{print $2}' | sed 's/]$//')
+  if [[ -z $list ]]; then
+    echo -e "You must have AWS profiles set up in ~/.aws/config"
+    return 1
+  fi
+
+  # if AWS_PROFILE is empty - Interative Mode
+  if [ -z "$AWS_PROFILE" ];then
+    local nlist=$(echo "$list" | nl)
+    while [[ -z $AWS_PROFILE ]]; do
+        export AWS_PROFILE=$(read -p "AWS profile? `echo $'\n\r'`$nlist `echo $'\n> '`" N; echo "$list" | sed -n ${N}p)
+    done
+  fi
 }
 
 function kube_config(){
