@@ -372,7 +372,6 @@ alias infra-test='/workspaces/tests/system/e2e_tests.sh'
 alias aws-env="$(git rev-parse --show-toplevel)/.config/.aws/aws_vault_env.sh"
 alias aws-whoami="aws_whoami $@"
 alias aws-bill="aws_bill $@"
-alias set-env="set_env $@"
 
 # For Sentry
 alias init-debug='init_debug'
