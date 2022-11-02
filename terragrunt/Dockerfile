@@ -2,7 +2,7 @@
 ARG BASE_IMAGE
 ARG VERSION
 FROM ${BASE_IMAGE}:${VERSION}  as terragrunt
-ARG TERRAGRUNT_VERSION=0.38.5
+ARG TERRAGRUNT_VERSION=0.39.2
 
 ENV TERRAGRUNT_INSTALL_SCRIPT="https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_amd64"
 RUN set -ex \
