@@ -34,6 +34,8 @@ COPY --from=rajasoun/dev-toolz-pulumi:1.0.0                    /root/.pulumi/bin
 COPY --from=rajasoun/dev-toolz-sso:1.0.0                       /usr/local/bin/aws-sso                  /usr/local/bin/aws-sso
 COPY --from=rajasoun/dev-toolz-sso:1.0.0                       /scripts/aws-sso-init.sh                /scripts/aws-sso-init.sh
 
+COPY --from=rajasoun/dev-toolz-teller:1.0.0                    /usr/local/bin/teller                   /usr/local/bin/aws-sso
+
 COPY --from=rajasoun/dev-toolz-workspace-scripts:1.0.0          /workspaces                            /workspaces
 
 # aws cli
